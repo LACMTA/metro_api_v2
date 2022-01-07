@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+    web:
+        build: nginx
+        ports:
+          - 80:80
+          - 443:443
+        depends_on:
+          - api
+
+    api:
+        build: domainchecker
+        environment:
+          - PORT=8080
+        ports:
+          - 8080:8080
