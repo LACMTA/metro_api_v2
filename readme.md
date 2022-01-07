@@ -16,7 +16,7 @@ Below is the shell script that can run to get started with the repository locall
 git clone https://github.com/LACMTA/metro_api_v2.git
 
 #change to the directory
-cd docker-fastapi-projects-nginx
+cd metro_api_v2
 
 # creates image in current folder with tag nginx
 docker build . -t nginx
