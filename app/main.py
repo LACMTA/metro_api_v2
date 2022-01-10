@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 
-my_fastapi_app = FastAPI()
+app = FastAPI()
 
 
-@my_fastapi_app.get("/")
+@app.get("/")
 async def root():
-    return {"Nginx": "Hello World from Nginx"}
+    return {"Nina": "Hello World!"}
