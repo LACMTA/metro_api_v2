@@ -10,7 +10,7 @@
             "type": "python 3.9",
             "path": "/build/app/",
             "module": "main",
-            "callable": "my_fastapi_app"
+            "callable": "app"
         }
     }
 }
