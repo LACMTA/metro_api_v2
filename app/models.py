@@ -29,6 +29,6 @@ def get_file_from_ftp():
 			else:
 				print('Transfer failed')
 				return False
-
+	ftp.quit()
 
 get_file_from_ftp()

@@ -1,3 +1,3 @@
 __pycache__/
-app/config.py
-secrets.txt
+docker-compose.yml
+.env

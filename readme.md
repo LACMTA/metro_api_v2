@@ -23,11 +23,13 @@ Run these commands in order to build the docker container and then run it.
 
 ``` shell
 # creates image in current folder with tag nginx
-docker build . -t nginx
+docker build . -t metro-api-v2:metro-api-v2
 
-# runs nginx image
-docker run --rm -it  -p 80:80/tcp nginx:latest
+# runs metro-api-v2 image
+docker run --rm -it  -p 80:80/tcp metro-api-v2:metro-api-v2
 ```
+
+docker-compose stop -t 1
 
 Use this command to run locally.
 
@@ -37,4 +39,17 @@ pip3 install -r requirements.txt
 
 # run uvicorn to serve the API
 uvicorn app.main:app --reload
+```
+
+### Misc Commands
+
+```
+docker build -t metro-api-v2:metro-api-v2 .
+docker compose up
+
+docker tag metro-api-v2:metro-api-v2 albertkun/
+
+metro-api-v2
+
+docker push albertkun/metro-api-v2
 ```
