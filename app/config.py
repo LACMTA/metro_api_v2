@@ -1,6 +1,10 @@
 import os
+from dotenv import load_dotenv
 
-
+try:
+    load_dotenv()
+except:
+    print('dotenv not found')
 class Config:
     SERVER = os.environ.get('FTP_SERVER')
     USERNAME = os.environ.get('FTP_USERNAME')
