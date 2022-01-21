@@ -17,6 +17,8 @@ from typing import Dict, List
 from pydantic import BaseModel, Json, ValidationError
 from datetime import datetime
 
+
+
 app = FastAPI(docs_url="/")
 # db = connect(host='', port=0, timeout=None, source_address=None)
 
@@ -88,7 +90,7 @@ async def get_canceled_trip_summary():
         return {"canceled_trips_summary":canceled_trips_summary,
                 "last_updated":formatted_modified_time}
 
-@app.get("/canceled_service/{line}")
+@app.get("/canceled_service/line/{line}")
 async def get_canceled_trip(line):
     with open('../data/CancelledTripsRT.json', 'r') as file:
         cancelled_service_json = json.loads(file.read())
@@ -103,6 +105,13 @@ async def get_canceled_trip(line):
                                                     trip_time_end=row["trp_time_end"],
                                                     type=row["trp_type"]))
     return {"canceled_data":canceled_service}
+    
+@app.get("/canceled_service/all/")
+async def get_canceled_trip():
+    with open('../data/CancelledTripsRT.json', 'r') as file:
+        cancelled_service_json = json.loads(file.read())
+        canceled_service = cancelled_service_json["CanceledService"]
+        return {"canceled_data":canceled_service}
 
 @app.get("/")
 async def root():
