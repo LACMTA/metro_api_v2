@@ -17,9 +17,6 @@ from typing import Dict, List
 from pydantic import BaseModel, Json, ValidationError
 from datetime import datetime
 
-from dateutil import parser
-
-
 app = FastAPI(docs_url="/")
 # db = connect(host='', port=0, timeout=None, source_address=None)
 
@@ -86,7 +83,6 @@ async def get_canceled_trip_summary():
                     canceled_trips_summary[route_number] = 1
                 else:
                     canceled_trips_summary[route_number] += 1
-        # parser.parse(ftp_json_file_time)
         modified_time = datetime.fromtimestamp((ftp_json_file_time))
         formatted_modified_time = modified_time.strftime('%Y-%m-%d %H:%M:%S')
         return {"canceled_trips_summary":canceled_trips_summary,
