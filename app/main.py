@@ -2,6 +2,9 @@ import json
 
 import requests
 import csv
+import heapq
+import itertools
+
 
 from fastapi import FastAPI,Request
 
@@ -13,7 +16,7 @@ from typing import Dict, List
 
 from pydantic import BaseModel, Json, ValidationError
 
-
+app = FastAPI(docs_url="/")
 # db = connect(host='', port=0, timeout=None, source_address=None)
 
 def csv_to_json(csvFilePath, jsonFilePath):
@@ -64,13 +67,29 @@ async def get_calendar_dates():
 def standardize_string(input_string):
     return input_string.lower().replace(" ", "")
 
-@app.get("/canceled_service/{line}/{trip_type}")
-async def get_canceled_trip(trip_type,line):
+@app.get("/canceled_service_summary/")
+async def get_canceled_trip_summary():
+    print('get_canceled_trip_summary')
+    with open('../data/CancelledTripsRT.json', 'r') as file:
+        canceled_trips = json.loads(file.read())
+        canceled_trips_summary = {}
+        for trip in canceled_trips["CanceledService"]:
+            # route_number = standardize_string(trip["trp_route"])
+            route_number = standardize_string(trip["trp_route"])
+            if route_number:
+                if route_number not in canceled_trips_summary:
+                    canceled_trips_summary[route_number] = 1
+                else:
+                    canceled_trips_summary[route_number] += 1
+        return {"canceled_trips_summary":canceled_trips_summary}
+
+@app.get("/canceled_service/{line}")
+async def get_canceled_trip(line):
     with open('../data/CancelledTripsRT.json', 'r') as file:
         cancelled_service_json = json.loads(file.read())
         canceled_service = []
         for row in cancelled_service_json["CanceledService"]:
-            if row["trp_type"] == trip_type and standardize_string(row["trp_route"]) == line:
+            if row["trp_type"] == "REG" and standardize_string(row["trp_route"]) == line:
                 canceled_service.append(CanceledServiceData(m_metro_export_trip_id=row["m_metro_export_trip_id"],
                                                     trp_route=row["trp_route"],
                                                     stop_description_first=row["stop_description_first"],
@@ -82,4 +101,4 @@ async def get_canceled_trip(trip_type,line):
 
 @app.get("/")
 async def root():
-    return {"Nina": "Hello World!"}
+    return {"Metro API Version": "2.0.1"}
