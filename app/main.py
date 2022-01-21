@@ -1,5 +1,7 @@
 import json
 
+from starlette.middleware.cors import CORSMiddleware
+
 import requests
 import csv
 import heapq
@@ -21,7 +23,13 @@ from datetime import datetime
 
 app = FastAPI(docs_url="/")
 # db = connect(host='', port=0, timeout=None, source_address=None)
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 def csv_to_json(csvFilePath, jsonFilePath):
     jsonArray = []
     headers = []
@@ -105,7 +113,7 @@ async def get_canceled_trip(line):
                                                     trip_time_end=row["trp_time_end"],
                                                     type=row["trp_type"]))
     return {"canceled_data":canceled_service}
-    
+
 @app.get("/canceled_service/all/")
 async def get_canceled_trip():
     with open('../data/CancelledTripsRT.json', 'r') as file:
