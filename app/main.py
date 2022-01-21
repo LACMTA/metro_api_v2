@@ -23,13 +23,7 @@ from datetime import datetime
 
 app = FastAPI(docs_url="/")
 # db = connect(host='', port=0, timeout=None, source_address=None)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+
 def csv_to_json(csvFilePath, jsonFilePath):
     jsonArray = []
     headers = []
@@ -120,6 +114,14 @@ async def get_canceled_trip():
         cancelled_service_json = json.loads(file.read())
         canceled_service = cancelled_service_json["CanceledService"]
         return {"canceled_data":canceled_service}
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 async def root():
