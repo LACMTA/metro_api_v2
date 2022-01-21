@@ -20,6 +20,7 @@ ftp.cwd(directory)
 ftp.retrlines("LIST")
 os.chdir("app/data/")
 
+
 def get_file_from_ftp():
 	for filename in ftp.nlst(TARGET_FILE): # Loop - looking for matching files
 		if filename == TARGET_FILE:
@@ -37,3 +38,4 @@ def get_file_from_ftp():
 	ftp.quit()
 
 get_file_from_ftp()
+ftp_json_file_time = os.path.getmtime(TARGET_FILE)

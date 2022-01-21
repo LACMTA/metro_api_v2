@@ -15,6 +15,10 @@ from app.ftp_connector import *
 from typing import Dict, List
 
 from pydantic import BaseModel, Json, ValidationError
+from datetime import datetime
+
+from dateutil import parser
+
 
 app = FastAPI(docs_url="/")
 # db = connect(host='', port=0, timeout=None, source_address=None)
@@ -70,7 +74,8 @@ def standardize_string(input_string):
 @app.get("/canceled_service_summary/")
 async def get_canceled_trip_summary():
     print('get_canceled_trip_summary')
-    with open('../data/CancelledTripsRT.json', 'r') as file:
+    json_file_path = "../data/CancelledTripsRT.json"
+    with open(json_file_path, 'r') as file:
         canceled_trips = json.loads(file.read())
         canceled_trips_summary = {}
         for trip in canceled_trips["CanceledService"]:
@@ -81,7 +86,11 @@ async def get_canceled_trip_summary():
                     canceled_trips_summary[route_number] = 1
                 else:
                     canceled_trips_summary[route_number] += 1
-        return {"canceled_trips_summary":canceled_trips_summary}
+        # parser.parse(ftp_json_file_time)
+        modified_time = datetime.fromtimestamp((ftp_json_file_time))
+        formatted_modified_time = modified_time.strftime('%Y-%m-%d %H:%M:%S')
+        return {"canceled_trips_summary":canceled_trips_summary,
+                "last_updated":formatted_modified_time}
 
 @app.get("/canceled_service/{line}")
 async def get_canceled_trip(line):
