@@ -8,6 +8,7 @@ class CanceledServiceData(BaseModel):
     stop_description_last: str
     trip_time_start: str
     trip_time_end: str
+    trip_direction: str
     type: str
 
 

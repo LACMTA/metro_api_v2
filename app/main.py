@@ -80,6 +80,7 @@ async def get_canceled_trip_summary():
     with open(json_file_path, 'r') as file:
         canceled_trips = json.loads(file.read())
         canceled_trips_summary = {}
+        total_canceled_trips = 0
         for trip in canceled_trips["CanceledService"]:
             # route_number = standardize_string(trip["trp_route"])
             route_number = standardize_string(trip["trp_route"])
@@ -88,9 +89,11 @@ async def get_canceled_trip_summary():
                     canceled_trips_summary[route_number] = 1
                 else:
                     canceled_trips_summary[route_number] += 1
+                total_canceled_trips += 1
         modified_time = datetime.fromtimestamp((ftp_json_file_time)).astimezone(pytz.timezone("America/Los_Angeles"))
         formatted_modified_time = modified_time.strftime('%Y-%m-%d %H:%M:%S')
         return {"canceled_trips_summary":canceled_trips_summary,
+                "total_canceled_trips":total_canceled_trips,
                 "last_updated":formatted_modified_time}
 
 @app.get("/canceled_service/line/{line}")
@@ -106,6 +109,7 @@ async def get_canceled_trip(line):
                                                     stop_description_last=row["stop_description_last"],
                                                     trip_time_start=row["trp_time_start"],
                                                     trip_time_end=row["trp_time_end"],
+                                                    trip_direction=row["trp_direction"],                                                    
                                                     type=row["trp_type"]))
     return {"canceled_data":canceled_service}
 
@@ -114,6 +118,16 @@ async def get_canceled_trip():
     with open('../data/CancelledTripsRT.json', 'r') as file:
         cancelled_service_json = json.loads(file.read())
         canceled_service = cancelled_service_json["CanceledService"]
+        for row in cancelled_service_json["CanceledService"]:
+            if row["trp_type"] == "REG":
+                canceled_service.append(CanceledServiceData(m_metro_export_trip_id=row["m_metro_export_trip_id"],
+                                                    trp_route=standardize_string(row["trp_route"]),
+                                                    stop_description_first=row["stop_description_first"],
+                                                    stop_description_last=row["stop_description_last"],
+                                                    trip_time_start=row["trp_time_start"],
+                                                    trip_time_end=row["trp_time_end"],
+                                                    trip_direction=row["trp_direction"],
+                                                    type=row["trp_type"]))
         return {"canceled_data":canceled_service}
 
 app.add_middleware(
