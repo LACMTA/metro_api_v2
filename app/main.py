@@ -103,14 +103,14 @@ async def get_canceled_trip(line):
         canceled_service = []
         for row in cancelled_service_json["CanceledService"]:
             if row["trp_type"] == "REG" and standardize_string(row["trp_route"]) == line:
-                canceled_service.append(CanceledServiceData(m_metro_export_trip_id=row["m_metro_export_trip_id"],
+                canceled_service.append(CanceledServiceData(m_gtfs_trip_id=row["m_gtfs_trip_id"],
                                                     trp_route=row["trp_route"],
                                                     stop_description_first=row["stop_description_first"],
                                                     stop_description_last=row["stop_description_last"],
                                                     trip_time_start=row["trp_time_start"],
                                                     trip_time_end=row["trp_time_end"],
-                                                    trip_direction=row["trp_direction"],                                                    
-                                                    type=row["trp_type"]))
+                                                    trip_direction=row["trp_direction"]                                                    
+                                                    ))
     return {"canceled_data":canceled_service}
 
 @app.get("/canceled_service/all/")
@@ -120,14 +120,13 @@ async def get_canceled_trip():
         canceled_service = cancelled_service_json["CanceledService"]
         for row in cancelled_service_json["CanceledService"]:
             if row["trp_type"] == "REG":
-                canceled_service.append(CanceledServiceData(m_metro_export_trip_id=row["m_metro_export_trip_id"],
+                canceled_service.append(CanceledServiceData(m_gtfs_trip_id=row["m_gtfs_trip_id"],
                                                     trp_route=standardize_string(row["trp_route"]),
                                                     stop_description_first=row["stop_description_first"],
                                                     stop_description_last=row["stop_description_last"],
                                                     trip_time_start=row["trp_time_start"],
                                                     trip_time_end=row["trp_time_end"],
-                                                    trip_direction=row["trp_direction"],
-                                                    type=row["trp_type"]))
+                                                    trip_direction=row["trp_direction"]))
         return {"canceled_data":canceled_service}
 
 app.add_middleware(
