@@ -37,5 +37,5 @@ def get_file_from_ftp():
 				return False
 	ftp.quit()
 
-get_file_from_ftp()
+
 ftp_json_file_time = os.path.getmtime(TARGET_FILE)
