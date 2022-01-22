@@ -19,6 +19,7 @@ from typing import Dict, List
 from pydantic import BaseModel, Json, ValidationError
 from datetime import datetime
 
+import pytz
 
 
 app = FastAPI(docs_url="/")
@@ -87,7 +88,7 @@ async def get_canceled_trip_summary():
                     canceled_trips_summary[route_number] = 1
                 else:
                     canceled_trips_summary[route_number] += 1
-        modified_time = datetime.fromtimestamp((ftp_json_file_time))
+        modified_time = datetime.fromtimestamp((ftp_json_file_time)).astimezone(pytz.timezone("America/Los_Angeles"))
         formatted_modified_time = modified_time.strftime('%Y-%m-%d %H:%M:%S')
         return {"canceled_trips_summary":canceled_trips_summary,
                 "last_updated":formatted_modified_time}
