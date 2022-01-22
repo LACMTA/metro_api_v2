@@ -90,6 +90,7 @@ async def get_canceled_trip_summary():
                 else:
                     canceled_trips_summary[route_number] += 1
                 total_canceled_trips += 1
+
         modified_time = datetime.fromtimestamp((ftp_json_file_time)).astimezone(pytz.timezone("America/Los_Angeles"))
         formatted_modified_time = modified_time.strftime('%Y-%m-%d %H:%M:%S')
         return {"canceled_trips_summary":canceled_trips_summary,
@@ -103,8 +104,9 @@ async def get_canceled_trip(line):
         canceled_service = []
         for row in cancelled_service_json["CanceledService"]:
             if row["trp_type"] == "REG" and standardize_string(row["trp_route"]) == line:
-                canceled_service.append(CanceledServiceData(m_gtfs_trip_id=row["m_gtfs_trip_id"],
-                                                    trp_route=row["trp_route"],
+                canceled_service.append(CanceledServiceData(
+                                                    gtfs_trip_id=row["m_gtfs_trip_id"],
+                                                    trip_route=standardize_string(row["trp_route"]),
                                                     stop_description_first=row["stop_description_first"],
                                                     stop_description_last=row["stop_description_last"],
                                                     trip_time_start=row["trp_time_start"],
@@ -118,15 +120,6 @@ async def get_canceled_trip():
     with open('../data/CancelledTripsRT.json', 'r') as file:
         cancelled_service_json = json.loads(file.read())
         canceled_service = cancelled_service_json["CanceledService"]
-        for row in cancelled_service_json["CanceledService"]:
-            if row["trp_type"] == "REG":
-                canceled_service.append(CanceledServiceData(m_gtfs_trip_id=row["m_gtfs_trip_id"],
-                                                    trp_route=standardize_string(row["trp_route"]),
-                                                    stop_description_first=row["stop_description_first"],
-                                                    stop_description_last=row["stop_description_last"],
-                                                    trip_time_start=row["trp_time_start"],
-                                                    trip_time_end=row["trp_time_end"],
-                                                    trip_direction=row["trp_direction"]))
         return {"canceled_data":canceled_service}
 
 app.add_middleware(
@@ -140,3 +133,8 @@ app.add_middleware(
 @app.get("/")
 async def root():
     return {"Metro API Version": "2.0.1"}
+
+try:
+    get_file_from_ftp()
+except:
+    print('ERROR: Unable to reach FTP server')
