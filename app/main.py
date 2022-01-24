@@ -134,7 +134,3 @@ app.add_middleware(
 async def root():
     return {"Metro API Version": "2.0.1"}
 
-try:
-    get_file_from_ftp()
-except:
-    print('ERROR: Unable to reach FTP server')

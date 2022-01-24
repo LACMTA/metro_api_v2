@@ -36,6 +36,9 @@ def get_file_from_ftp():
 				print('Transfer failed')
 				return False
 	ftp.quit()
-
-
+try:
+	get_file_from_ftp()
+except:
+	print('FTP transfer failed')
+	exit()
 ftp_json_file_time = os.path.getmtime(TARGET_FILE)
