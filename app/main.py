@@ -1,18 +1,20 @@
+# import data modules
 import json
-
-from starlette.middleware.cors import CORSMiddleware
-
 import requests
 import csv
-import heapq
-import itertools
 
+# import scheduling modules
+import threading
+import time
+import schedule
 
 from fastapi import FastAPI,Request
+from starlette.middleware.cors import CORSMiddleware
 
 from app.config import Config
 from app.models import *
-from app.ftp_connector import *
+
+from app.update_canceled_trips import *
 
 from typing import Dict, List
 
@@ -24,6 +26,30 @@ import pytz
 
 app = FastAPI(docs_url="/")
 # db = connect(host='', port=0, timeout=None, source_address=None)
+
+
+# code from https://schedule.readthedocs.io/en/stable/background-execution.html
+def run_continuously(interval=300):
+    cease_continuous_run = threading.Event()
+    
+    class ScheduleThread(threading.Thread):
+        @classmethod
+        def run(cls):
+            while not cease_continuous_run.is_set():
+                schedule.run_pending()
+                time.sleep(interval)
+    
+    continuous_thread = ScheduleThread()
+    continuous_thread.start()
+    return cease_continuous_run
+
+def background_job():
+    run_update()
+
+schedule.every().second.do(background_job)
+
+# Start the background thread
+stop_run_continuously = run_continuously()
 
 def csv_to_json(csvFilePath, jsonFilePath):
     jsonArray = []
@@ -50,20 +76,19 @@ def csv_to_json(csvFilePath, jsonFilePath):
         jsonf.write(jsonString)
           
 csvFilePath = r'data.csv'
-jsonFilePath = r'../data/calendar_dates.json'
+jsonFilePath = r'app/data/calendar_dates.json'
 
 # from datetime import datetime
 
-    
 lactmta_gtfs_rt_url = "https://lacmta.github.io/lacmta-gtfs/data/calendar_dates.txt"
 response = requests.get(lactmta_gtfs_rt_url)
 
 cr = csv.reader(response.text.splitlines())
-# print(cr)
+print(cr)
 csv_to_json(cr,jsonFilePath)
 
 app = FastAPI()
-print(app)
+
 @app.get("/calendar_dates/")
 async def get_calendar_dates():
     with open('../data/calendar_dates.json', 'r') as file:
@@ -76,7 +101,7 @@ def standardize_string(input_string):
 @app.get("/canceled_service_summary/")
 async def get_canceled_trip_summary():
     print('get_canceled_trip_summary')
-    json_file_path = "../data/CancelledTripsRT.json"
+    json_file_path = "app/data/CancelledTripsRT.json"
     with open(json_file_path, 'r') as file:
         canceled_trips = json.loads(file.read())
         canceled_trips_summary = {}
@@ -90,7 +115,8 @@ async def get_canceled_trip_summary():
                 else:
                     canceled_trips_summary[route_number] += 1
                 total_canceled_trips += 1
-
+        ftp_json_file_time = os.path.getmtime(json_file_path)
+        print('file modified: ' + str(ftp_json_file_time))
         modified_time = datetime.fromtimestamp((ftp_json_file_time)).astimezone(pytz.timezone("America/Los_Angeles"))
         formatted_modified_time = modified_time.strftime('%Y-%m-%d %H:%M:%S')
         return {"canceled_trips_summary":canceled_trips_summary,
