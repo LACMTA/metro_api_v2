@@ -47,6 +47,7 @@ def run_continuously(interval=UPDATE_INTERVAL):
     return cease_continuous_run
 
 def background_job():
+    print("Running background job")
     run_update()
 
 schedule.every().second.do(background_job)
