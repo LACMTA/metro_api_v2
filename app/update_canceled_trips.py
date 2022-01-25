@@ -13,6 +13,7 @@ def run_update():
             get_file_from_ftp(TARGET_FILE, LOCALPATH)
             # ftp_json_file_time = file_modified_time
         disconnect_from_ftp()
-    except:
+    except Exception as e:
         print('FTP transfer failed')
+        print(e)
         exit()

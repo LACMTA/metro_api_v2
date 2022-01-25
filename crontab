@@ -1,2 +1,0 @@
-# run python script every 5 minutes
-*/1 * * * * python /app/update_canceled_trips.py  > /proc/1/fd/1 2> /proc/1/fd/2

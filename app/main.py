@@ -23,13 +23,16 @@ from datetime import datetime
 
 import pytz
 
+UPDATE_INTERVAL = 300
+PATH_TO_CALENDAR_JSON = 'app/data/calendar_dates.json'
+PATH_TO_CANCELED_JSON = 'app/data/CancelledTripsRT.json'
 
 app = FastAPI(docs_url="/")
 # db = connect(host='', port=0, timeout=None, source_address=None)
 
 
 # code from https://schedule.readthedocs.io/en/stable/background-execution.html
-def run_continuously(interval=300):
+def run_continuously(interval=UPDATE_INTERVAL):
     cease_continuous_run = threading.Event()
     
     class ScheduleThread(threading.Thread):
@@ -89,9 +92,11 @@ csv_to_json(cr,jsonFilePath)
 
 app = FastAPI()
 
+
 @app.get("/calendar_dates/")
 async def get_calendar_dates():
-    with open('../data/calendar_dates.json', 'r') as file:
+    
+    with open(PATH_TO_CALENDAR_JSON, 'r') as file:
         calendar_dates = json.loads(file.read())
         return {"calendar_dates":calendar_dates}
 
@@ -101,8 +106,7 @@ def standardize_string(input_string):
 @app.get("/canceled_service_summary/")
 async def get_canceled_trip_summary():
     print('get_canceled_trip_summary')
-    json_file_path = "app/data/CancelledTripsRT.json"
-    with open(json_file_path, 'r') as file:
+    with open(PATH_TO_CANCELED_JSON, 'r') as file:
         canceled_trips = json.loads(file.read())
         canceled_trips_summary = {}
         total_canceled_trips = 0
@@ -115,7 +119,7 @@ async def get_canceled_trip_summary():
                 else:
                     canceled_trips_summary[route_number] += 1
                 total_canceled_trips += 1
-        ftp_json_file_time = os.path.getmtime(json_file_path)
+        ftp_json_file_time = os.path.getmtime(PATH_TO_CANCELED_JSON)
         print('file modified: ' + str(ftp_json_file_time))
         modified_time = datetime.fromtimestamp((ftp_json_file_time)).astimezone(pytz.timezone("America/Los_Angeles"))
         formatted_modified_time = modified_time.strftime('%Y-%m-%d %H:%M:%S')
@@ -125,7 +129,7 @@ async def get_canceled_trip_summary():
 
 @app.get("/canceled_service/line/{line}")
 async def get_canceled_trip(line):
-    with open('../data/CancelledTripsRT.json', 'r') as file:
+    with open(PATH_TO_CANCELED_JSON, 'r') as file:
         cancelled_service_json = json.loads(file.read())
         canceled_service = []
         for row in cancelled_service_json["CanceledService"]:
@@ -143,7 +147,7 @@ async def get_canceled_trip(line):
 
 @app.get("/canceled_service/all/")
 async def get_canceled_trip():
-    with open('../data/CancelledTripsRT.json', 'r') as file:
+    with open(PATH_TO_CANCELED_JSON, 'r') as file:
         cancelled_service_json = json.loads(file.read())
         canceled_service = cancelled_service_json["CanceledService"]
         return {"canceled_data":canceled_service}
