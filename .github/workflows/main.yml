@@ -9,9 +9,9 @@
 name: Build and publish Docker Image to DockerHub
 
 on:
-  push:
-    branches: 
-      - main
+  # push:
+    # branches: 
+      # - main
   pull_request:
 
 jobs:

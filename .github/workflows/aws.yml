@@ -6,12 +6,14 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
+# Source Partly from: https://aws.amazon.com/getting-started/guides/deploy-webapp-lightsail/module-four/
+
 name: Deploy Docker Image to AWS Lightsail Container Service
 
 on:
-  # push:
-  #   branches: 
-  #     - main
+  push:
+    branches: 
+      - main
   pull_request:
 
 jobs:
@@ -51,8 +53,21 @@ jobs:
         with:
           push: true
           tags: lacmta/metro-api-v2:latest
-      - name: Deploy to Lightsail
+      - name: Push Updated Docker Image on Lightsail
         run: >
-          aws lightsail push-container-service-deployment
-          --cli-input-yaml file://container_with_image.yml
-          --output yaml
+          aws lightsail push-container-image
+          --region us-west-2
+          --service-name metro-api-v2
+          --label latest
+          --image lacmta/metro-api-v2:latest
+      # - name: Deploy Docker Image to Lightsail
+      #   run: >
+      #     aws lightsail push-container-image
+      #     --region us-west-2
+      #     --service-name metro-api-v2
+      #     --label latest
+      #     --image lacmta/metro-api-v2:latest
+
+      #     push-container-service-deployment
+      #     --cli-input-yaml file://container_with_image.yml
+      #     --output yaml
