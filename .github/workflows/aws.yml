@@ -21,6 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SERVICE_NAME: ${{ secrets.SERVICE_NAME }}
+      FTP_PASS: ${{ secrets.FTP_PASS }}
+      FTP_USERNAME: ${{ secrets.FTP_USER }}
+      FTP_SERVER: ${{ secrets.FTP_SERVER }}
     steps:
       - uses: actions/checkout@master
       - name: Upgrade AWS CLI version and setup lightsailctl
@@ -57,7 +60,7 @@ jobs:
         run: >
           aws lightsail create-container-service-deployment 
           --service-name metro-api-v2 
-          --containers '{"metro-api-v2-dev": {"image":"lacmta/metro-api-v2:latest","ports":{"80":"HTTP"},"environment":{"FTP_PASS":${{secrets.FTP_PASS }},"FTP_SERVER":${{secrets.FTP_SERVER }},"FTP_USERNAME":${{secrets.FTP_USERNAME }}}}}' --public-endpoint '{"containerName": "metro-api-v2-dev","containerPort": 80,"healthCheck":{ "healthyThreshold": 2,"unhealthyThreshold": 2,"timeoutSeconds": 2,"intervalSeconds": 5,"path": "/dev","successCodes": "200-499"}}'
+          --containers '{"metro-api-v2": {"image":"lacmta/metro-api-v2:latest","ports":{"80":"HTTP"},"environment":{"FTP_PASS":$FTP_PASS,"FTP_SERVER":$FTP_SERVER,"FTP_USERNAME":$FTP_USERNAME}}}' --public-endpoint '{"containerName": "metro-api-v2","containerPort": 80,"healthCheck":{ "healthyThreshold": 2,"unhealthyThreshold": 2,"timeoutSeconds": 2,"intervalSeconds": 5,"path": "/","successCodes": "200-499"}}'
       # - name: Deploy Docker Image to Lightsail
       #   run: >
       #     aws lightsail push-container-image
