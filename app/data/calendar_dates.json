@@ -12800,6 +12800,246 @@
         "exception_type": "2"
     },
     {
+        "service_id": "DEC21-D07CAR-1_Weekday-LOANHA0",
+        "date": "20220119",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-PAULRB0",
+        "date": "20220119",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-FAIRHC0",
+        "date": "20220119",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-HOLLHB0",
+        "date": "20220119",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-LOANHA0",
+        "date": "20220120",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-PAULRB0",
+        "date": "20220120",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-FAIRHC0",
+        "date": "20220120",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-HOLLHB0",
+        "date": "20220120",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-LOANHA0",
+        "date": "20220121",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-PAULRB0",
+        "date": "20220121",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-FAIRHC0",
+        "date": "20220121",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-HOLLHB0",
+        "date": "20220121",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-LOANHS1",
+        "date": "20220124",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-PAULRB0",
+        "date": "20220124",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-FAIRHC0",
+        "date": "20220124",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-HOLLHB0",
+        "date": "20220124",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-FAIRHS1",
+        "date": "20220125",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-LOANHA0",
+        "date": "20220125",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-PAULRE1-1010100",
+        "date": "20220125",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-PAULRE1-0101000",
+        "date": "20220125",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-HOLLHS1",
+        "date": "20220125",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-POLYHT1",
+        "date": "20220119",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-MONRHB0",
+        "date": "20220119",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-POLYHT1",
+        "date": "20220120",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-MONRHB0",
+        "date": "20220120",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-WOHIAC1-0000100",
+        "date": "20220121",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-WOHIAC1-1111000",
+        "date": "20220121",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-POLYHT1",
+        "date": "20220121",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-MONRHB0",
+        "date": "20220121",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-POLYHT1",
+        "date": "20220124",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-MONRHB0",
+        "date": "20220124",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-KENNHS1",
+        "date": "20220125",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-MULHOL1-1011100",
+        "date": "20220125",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-MULHOL1-0100000",
+        "date": "20220125",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-POLYHS1",
+        "date": "20220125",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-MONRHS1",
+        "date": "20220125",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D15CAR-1_Weekday-POLYHT1",
+        "date": "20220119",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D15CAR-1_Weekday-POLYHT1",
+        "date": "20220120",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D15CAR-1_Weekday-POLYHT1",
+        "date": "20220121",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D15CAR-1_Weekday-POLYHT1",
+        "date": "20220124",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D15CAR-1_Weekday-MULHOL1-0100000",
+        "date": "20220125",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D15CAR-1_Weekday-MULHOL1-1011100",
+        "date": "20220125",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D15CAR-1_Weekday-POLYHS1",
+        "date": "20220125",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D18CAR-1_Weekday-WESTHC0",
+        "date": "20220119",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D18CAR-1_Weekday-WESTHC0",
+        "date": "20220120",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D18CAR-1_Weekday-WESTHC0",
+        "date": "20220121",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D18CAR-1_Weekday-WESTHC0",
+        "date": "20220124",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D18CAR-1_Weekday-WESTHS1",
+        "date": "20220125",
+        "exception_type": "2"
+    },
+    {
         "service_id": "DEC21-D02CAR-1_Weekday-SANTHB0",
         "date": "20220126",
         "exception_type": "2"
@@ -12861,117 +13101,52 @@
     },
     {
         "service_id": "DEC21-D02CAR-1_Weekday-SANTHB0",
-        "date": "20220128",
+        "date": "20220203",
         "exception_type": "2"
     },
     {
         "service_id": "DEC21-D02CAR-1_Weekday-KINGMA0",
-        "date": "20220128",
+        "date": "20220203",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D07CAR-1_Weekday-LOANHA0",
-        "date": "20220119",
+        "service_id": "DEC21-D02CAR-1_Weekday-SANTHB0",
+        "date": "20220204",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D07CAR-1_Weekday-PAULRB0",
-        "date": "20220119",
+        "service_id": "DEC21-D02CAR-1_Weekday-KINGMA0",
+        "date": "20220204",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D07CAR-1_Weekday-FAIRHC0",
-        "date": "20220119",
+        "service_id": "DEC21-D02CAR-1_Weekday-SANTHB0",
+        "date": "20220207",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D07CAR-1_Weekday-HOLLHB0",
-        "date": "20220119",
+        "service_id": "DEC21-D02CAR-1_Weekday-KINGMS1",
+        "date": "20220207",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D07CAR-1_Weekday-LOANHA0",
-        "date": "20220120",
+        "service_id": "DEC21-D02CAR-1_Weekday-SANTHS1",
+        "date": "20220208",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D07CAR-1_Weekday-PAULRB0",
-        "date": "20220120",
+        "service_id": "DEC21-D02CAR-1_Weekday-KINGMA0",
+        "date": "20220208",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D07CAR-1_Weekday-FAIRHC0",
-        "date": "20220120",
+        "service_id": "DEC21-D02CAR-1_Weekday-SANTHB0",
+        "date": "20220209",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D07CAR-1_Weekday-HOLLHB0",
-        "date": "20220120",
-        "exception_type": "2"
-    },
-    {
-        "service_id": "DEC21-D07CAR-1_Weekday-LOANHA0",
-        "date": "20220121",
-        "exception_type": "2"
-    },
-    {
-        "service_id": "DEC21-D07CAR-1_Weekday-PAULRB0",
-        "date": "20220121",
-        "exception_type": "2"
-    },
-    {
-        "service_id": "DEC21-D07CAR-1_Weekday-FAIRHC0",
-        "date": "20220121",
-        "exception_type": "2"
-    },
-    {
-        "service_id": "DEC21-D07CAR-1_Weekday-HOLLHB0",
-        "date": "20220121",
-        "exception_type": "2"
-    },
-    {
-        "service_id": "DEC21-D07CAR-1_Weekday-LOANHS1",
-        "date": "20220124",
-        "exception_type": "2"
-    },
-    {
-        "service_id": "DEC21-D07CAR-1_Weekday-PAULRB0",
-        "date": "20220124",
-        "exception_type": "2"
-    },
-    {
-        "service_id": "DEC21-D07CAR-1_Weekday-FAIRHC0",
-        "date": "20220124",
-        "exception_type": "2"
-    },
-    {
-        "service_id": "DEC21-D07CAR-1_Weekday-HOLLHB0",
-        "date": "20220124",
-        "exception_type": "2"
-    },
-    {
-        "service_id": "DEC21-D07CAR-1_Weekday-FAIRHS1",
-        "date": "20220125",
-        "exception_type": "2"
-    },
-    {
-        "service_id": "DEC21-D07CAR-1_Weekday-LOANHA0",
-        "date": "20220125",
-        "exception_type": "2"
-    },
-    {
-        "service_id": "DEC21-D07CAR-1_Weekday-PAULRE1-1010100",
-        "date": "20220125",
-        "exception_type": "2"
-    },
-    {
-        "service_id": "DEC21-D07CAR-1_Weekday-PAULRE1-0101000",
-        "date": "20220125",
-        "exception_type": "2"
-    },
-    {
-        "service_id": "DEC21-D07CAR-1_Weekday-HOLLHS1",
-        "date": "20220125",
+        "service_id": "DEC21-D02CAR-1_Weekday-KINGMA0",
+        "date": "20220209",
         "exception_type": "2"
     },
     {
@@ -13110,78 +13285,108 @@
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D08CAR-1_Weekday-POLYHT1",
-        "date": "20220119",
+        "service_id": "DEC21-D07CAR-1_Weekday-LOANHA0",
+        "date": "20220203",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D08CAR-1_Weekday-MONRHB0",
-        "date": "20220119",
+        "service_id": "DEC21-D07CAR-1_Weekday-PAULRB0",
+        "date": "20220203",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D08CAR-1_Weekday-POLYHT1",
-        "date": "20220120",
+        "service_id": "DEC21-D07CAR-1_Weekday-FAIRHC0",
+        "date": "20220203",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D08CAR-1_Weekday-MONRHB0",
-        "date": "20220120",
+        "service_id": "DEC21-D07CAR-1_Weekday-HOLLHB0",
+        "date": "20220203",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D08CAR-1_Weekday-WOHIAC1-0000100",
-        "date": "20220121",
+        "service_id": "DEC21-D07CAR-1_Weekday-LOANHA0",
+        "date": "20220204",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D08CAR-1_Weekday-WOHIAC1-1111000",
-        "date": "20220121",
+        "service_id": "DEC21-D07CAR-1_Weekday-PAULRB0",
+        "date": "20220204",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D08CAR-1_Weekday-POLYHT1",
-        "date": "20220121",
+        "service_id": "DEC21-D07CAR-1_Weekday-FAIRHC0",
+        "date": "20220204",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D08CAR-1_Weekday-MONRHB0",
-        "date": "20220121",
+        "service_id": "DEC21-D07CAR-1_Weekday-HOLLHB0",
+        "date": "20220204",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D08CAR-1_Weekday-POLYHT1",
-        "date": "20220124",
+        "service_id": "DEC21-D07CAR-1_Weekday-LOANHS1",
+        "date": "20220207",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D08CAR-1_Weekday-MONRHB0",
-        "date": "20220124",
+        "service_id": "DEC21-D07CAR-1_Weekday-PAULRB0",
+        "date": "20220207",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D08CAR-1_Weekday-KENNHS1",
-        "date": "20220125",
+        "service_id": "DEC21-D07CAR-1_Weekday-FAIRHC0",
+        "date": "20220207",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D08CAR-1_Weekday-MULHOL1-1011100",
-        "date": "20220125",
+        "service_id": "DEC21-D07CAR-1_Weekday-HOLLHB0",
+        "date": "20220207",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D08CAR-1_Weekday-MULHOL1-0100000",
-        "date": "20220125",
+        "service_id": "DEC21-D07CAR-1_Weekday-FAIRHS1",
+        "date": "20220208",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D08CAR-1_Weekday-POLYHS1",
-        "date": "20220125",
+        "service_id": "DEC21-D07CAR-1_Weekday-LOANHA0",
+        "date": "20220208",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D08CAR-1_Weekday-MONRHS1",
-        "date": "20220125",
+        "service_id": "DEC21-D07CAR-1_Weekday-PAULRB0",
+        "date": "20220208",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-HOLLHS1",
+        "date": "20220208",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-LOANHA0",
+        "date": "20220209",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-PAULRB0",
+        "date": "20220209",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-FAIRHC0",
+        "date": "20220209",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D07CAR-1_Weekday-HOLLHB0",
+        "date": "20220209",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-KENNHB0",
+        "date": "20220126",
         "exception_type": "2"
     },
     {
@@ -13192,6 +13397,11 @@
     {
         "service_id": "DEC21-D08CAR-1_Weekday-MONRHB0",
         "date": "20220126",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-KENNHB0",
+        "date": "20220127",
         "exception_type": "2"
     },
     {
@@ -13215,6 +13425,11 @@
         "exception_type": "2"
     },
     {
+        "service_id": "DEC21-D08CAR-1_Weekday-KENNHB0",
+        "date": "20220128",
+        "exception_type": "2"
+    },
+    {
         "service_id": "DEC21-D08CAR-1_Weekday-POLYHT1",
         "date": "20220128",
         "exception_type": "2"
@@ -13222,6 +13437,11 @@
     {
         "service_id": "DEC21-D08CAR-1_Weekday-MONRHB0",
         "date": "20220128",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-KENNHB0",
+        "date": "20220131",
         "exception_type": "2"
     },
     {
@@ -13260,6 +13480,11 @@
         "exception_type": "2"
     },
     {
+        "service_id": "DEC21-D08CAR-1_Weekday-KENNHB0",
+        "date": "20220202",
+        "exception_type": "2"
+    },
+    {
         "service_id": "DEC21-D08CAR-1_Weekday-POLYHT1",
         "date": "20220202",
         "exception_type": "2"
@@ -13270,38 +13495,98 @@
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D15CAR-1_Weekday-POLYHT1",
-        "date": "20220119",
+        "service_id": "DEC21-D08CAR-1_Weekday-KENNHB0",
+        "date": "20220203",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D15CAR-1_Weekday-POLYHT1",
-        "date": "20220120",
+        "service_id": "DEC21-D08CAR-1_Weekday-POLYHT1",
+        "date": "20220203",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D15CAR-1_Weekday-POLYHT1",
-        "date": "20220121",
+        "service_id": "DEC21-D08CAR-1_Weekday-MONRHB0",
+        "date": "20220203",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D15CAR-1_Weekday-POLYHT1",
-        "date": "20220124",
+        "service_id": "DEC21-D08CAR-1_Weekday-WOHIAC1-0000100",
+        "date": "20220204",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D15CAR-1_Weekday-MULHOL1-0100000",
-        "date": "20220125",
+        "service_id": "DEC21-D08CAR-1_Weekday-WOHIAC1-1111000",
+        "date": "20220204",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D15CAR-1_Weekday-MULHOL1-1011100",
-        "date": "20220125",
+        "service_id": "DEC21-D08CAR-1_Weekday-KENNHB0",
+        "date": "20220204",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D15CAR-1_Weekday-POLYHS1",
-        "date": "20220125",
+        "service_id": "DEC21-D08CAR-1_Weekday-POLYHT1",
+        "date": "20220204",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-MONRHB0",
+        "date": "20220204",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-KENNHB0",
+        "date": "20220207",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-POLYHT1",
+        "date": "20220207",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-MONRHB0",
+        "date": "20220207",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-MULHOL1-1011100",
+        "date": "20220208",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-MULHOL1-0100000",
+        "date": "20220208",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-KENNHB0",
+        "date": "20220208",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-POLYHS1",
+        "date": "20220208",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-MONRHS1",
+        "date": "20220208",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-KENNHB0",
+        "date": "20220209",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-POLYHT1",
+        "date": "20220209",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D08CAR-1_Weekday-MONRHB0",
+        "date": "20220209",
         "exception_type": "2"
     },
     {
@@ -13345,28 +13630,38 @@
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D18CAR-1_Weekday-WESTHC0",
-        "date": "20220119",
+        "service_id": "DEC21-D15CAR-1_Weekday-POLYHT1",
+        "date": "20220203",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D18CAR-1_Weekday-WESTHC0",
-        "date": "20220120",
+        "service_id": "DEC21-D15CAR-1_Weekday-POLYHT1",
+        "date": "20220204",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D18CAR-1_Weekday-WESTHC0",
-        "date": "20220121",
+        "service_id": "DEC21-D15CAR-1_Weekday-POLYHT1",
+        "date": "20220207",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D18CAR-1_Weekday-WESTHC0",
-        "date": "20220124",
+        "service_id": "DEC21-D15CAR-1_Weekday-MULHOL1-0100000",
+        "date": "20220208",
         "exception_type": "2"
     },
     {
-        "service_id": "DEC21-D18CAR-1_Weekday-WESTHS1",
-        "date": "20220125",
+        "service_id": "DEC21-D15CAR-1_Weekday-MULHOL1-1011100",
+        "date": "20220208",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D15CAR-1_Weekday-POLYHS1",
+        "date": "20220208",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D15CAR-1_Weekday-POLYHT1",
+        "date": "20220209",
         "exception_type": "2"
     },
     {
@@ -13397,6 +13692,31 @@
     {
         "service_id": "DEC21-D18CAR-1_Weekday-WESTHC0",
         "date": "20220202",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D18CAR-1_Weekday-WESTHC0",
+        "date": "20220203",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D18CAR-1_Weekday-WESTHC0",
+        "date": "20220204",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D18CAR-1_Weekday-WESTHC0",
+        "date": "20220207",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D18CAR-1_Weekday-WESTHS1",
+        "date": "20220208",
+        "exception_type": "2"
+    },
+    {
+        "service_id": "DEC21-D18CAR-1_Weekday-WESTHC0",
+        "date": "20220209",
         "exception_type": "2"
     }
 ]

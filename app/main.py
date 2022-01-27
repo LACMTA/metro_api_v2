@@ -8,6 +8,8 @@ import threading
 import time
 import schedule
 
+import pytz
+
 from fastapi import FastAPI,Request
 from starlette.middleware.cors import CORSMiddleware
 
@@ -18,10 +20,11 @@ from app.update_canceled_trips import *
 
 from typing import Dict, List
 
-from pydantic import BaseModel, Json, ValidationError
-from datetime import datetime
 
-import pytz
+from pydantic import BaseModel, Json, ValidationError
+from datetime import date, datetime
+from app.gtfs_rt import *
+
 
 UPDATE_INTERVAL = 300
 PATH_TO_CALENDAR_JSON = 'app/data/calendar_dates.json'
@@ -29,7 +32,6 @@ PATH_TO_CANCELED_JSON = 'app/data/CancelledTripsRT.json'
 
 app = FastAPI(docs_url="/")
 # db = connect(host='', port=0, timeout=None, source_address=None)
-
 
 # code from https://schedule.readthedocs.io/en/stable/background-execution.html
 def run_continuously(interval=UPDATE_INTERVAL):
@@ -60,12 +62,6 @@ def csv_to_json(csvFilePath, jsonFilePath):
     header_row = next(csvFilePath)
     for column in header_row:
         headers.append(column)  
-    print(headers)
-    #read csv file
-    # with open(csvFilePath, 'wb+',encoding='utf-8') as csvf: 
-    #     #load csv file data using csv library's dictionary reader
-    #     csvReader = csv.DictReader(csvf) 
-        #convert each csv row into python dict
     for row in csvFilePath: 
         #add this python dict to json array
         the_data = {header_row[0]:row[0],
@@ -81,7 +77,7 @@ def csv_to_json(csvFilePath, jsonFilePath):
 csvFilePath = r'data.csv'
 jsonFilePath = r'app/data/calendar_dates.json'
 
-# from datetime import datetime
+from datetime import datetime
 
 lactmta_gtfs_rt_url = "https://lacmta.github.io/lacmta-gtfs/data/calendar_dates.txt"
 response = requests.get(lactmta_gtfs_rt_url)
@@ -92,10 +88,8 @@ csv_to_json(cr,jsonFilePath)
 
 app = FastAPI()
 
-
 @app.get("/calendar_dates/")
 async def get_calendar_dates():
-    
     with open(PATH_TO_CALENDAR_JSON, 'r') as file:
         calendar_dates = json.loads(file.read())
         return {"calendar_dates":calendar_dates}
@@ -160,7 +154,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/time")
+async def get_time():
+    current_time = datetime.now()
+    return {current_time}
+
+@app.get("/trip_updates")
+async def trip_updates():
+    result = get_trip_updates()
+    return result
+
+# @app.get("/agencies/")
+# async def root():
+#     return {"Metro API Version": "2.0.3"}
+
 @app.get("/")
 async def root():
-    return {"Metro API Version": "2.0.3"}
+    return {"Metro API Version": "2.0.4"}
 
