@@ -159,9 +159,19 @@ async def get_time():
     current_time = datetime.now()
     return {current_time}
 
-@app.get("/trip_updates")
-async def trip_updates():
-    result = get_trip_updates()
+@app.get("/trip_updates/{service}")
+async def trip_updates(service):
+    result = get_trip_updates(service)
+    return result
+
+@app.get("/alerts/{service}")
+async def alerts(service):
+    result = get_alerts(service)
+    return result
+
+@app.get("/vehicle_positions/{service}")
+async def vehicle_positions(service):
+    result = get_vehicle_positions(service)
     return result
 
 # @app.get("/agencies/")
