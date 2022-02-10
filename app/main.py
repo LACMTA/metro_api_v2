@@ -164,11 +164,6 @@ async def trip_updates(service):
     result = get_trip_updates(service)
     return result
 
-@app.get("/alerts/{service}")
-async def alerts(service):
-    result = get_alerts(service)
-    return result
-
 @app.get("/vehicle_positions/{service}")
 async def vehicle_positions(service):
     result = get_vehicle_positions(service)
