@@ -16,4 +16,3 @@ def run_update():
     except Exception as e:
         print('FTP transfer failed')
         print(e)
-        exit()
