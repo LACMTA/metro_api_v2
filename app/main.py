@@ -175,5 +175,5 @@ async def vehicle_positions(service):
 
 @app.get("/")
 async def root():
-    return {"Metro API Version": "2.0.4"}
+    return {"Metro API Version": "2.0.5"}
 
