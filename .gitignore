@@ -1,6 +1,4 @@
 __pycache__/
 docker-compose.yml
 .env
-.envrc
 sandbox/
-app/data/
