@@ -10,11 +10,17 @@ import schedule
 
 import pytz
 
-from fastapi import FastAPI,Request
+from fastapi import FastAPI,Request,Depends, HTTPException,status
+
 from starlette.middleware.cors import CORSMiddleware
+
+# for OAuth2
+from fastapi.security import OAuth2PasswordBearer
+
 
 from app.config import Config
 from app.models import *
+from app.security import *
 
 from app.update_canceled_trips import *
 
@@ -25,7 +31,6 @@ from pydantic import BaseModel, Json, ValidationError
 from datetime import date, datetime
 from app.gtfs_rt import *
 
-
 UPDATE_INTERVAL = 300
 PATH_TO_CALENDAR_JSON = 'app/data/calendar_dates.json'
 PATH_TO_CANCELED_JSON = 'app/data/CancelledTripsRT.json'
@@ -33,10 +38,11 @@ PATH_TO_CANCELED_JSON = 'app/data/CancelledTripsRT.json'
 app = FastAPI(docs_url="/")
 # db = connect(host='', port=0, timeout=None, source_address=None)
 
+
+
 # code from https://schedule.readthedocs.io/en/stable/background-execution.html
 def run_continuously(interval=UPDATE_INTERVAL):
     cease_continuous_run = threading.Event()
-    
     class ScheduleThread(threading.Thread):
         @classmethod
         def run(cls):
@@ -77,16 +83,28 @@ def csv_to_json(csvFilePath, jsonFilePath):
 csvFilePath = r'data.csv'
 jsonFilePath = r'app/data/calendar_dates.json'
 
-from datetime import datetime
 
 lactmta_gtfs_rt_url = "https://lacmta.github.io/lacmta-gtfs/data/calendar_dates.txt"
 response = requests.get(lactmta_gtfs_rt_url)
 
 cr = csv.reader(response.text.splitlines())
-print(cr)
 csv_to_json(cr,jsonFilePath)
 
 app = FastAPI()
+
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+# Begin Routes
+
+@app.get("/users/me")
+async def read_users_me(current_user: User = Depends(get_current_user)):
+    return current_user
+
+
+@app.get("/items/")
+async def read_items(token: str = Depends(oauth2_scheme)):
+    return {"token": token}
 
 @app.get("/calendar_dates/")
 async def get_calendar_dates():
@@ -158,6 +176,7 @@ app.add_middleware(
 async def get_time():
     current_time = datetime.now()
     return {current_time}
+
 
 @app.get("/trip_updates/{service}")
 async def trip_updates(service):

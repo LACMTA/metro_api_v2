@@ -7,3 +7,7 @@ requests
 python-dotenv
 pytz
 schedule
+python-multipart
+SQLAlchemy<1.4
+psycopg2
+# GeoAlchemy2
