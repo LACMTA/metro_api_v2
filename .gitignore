@@ -3,4 +3,4 @@ docker-compose.yml
 .env
 .envrc
 sandbox/
-data/
+app/data/
