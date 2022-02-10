@@ -170,5 +170,5 @@ async def trip_updates():
 
 @app.get("/")
 async def root():
-    return {"Metro API Version": "2.0.4"}
+    return {"Metro API Version": "2.0.5"}
 

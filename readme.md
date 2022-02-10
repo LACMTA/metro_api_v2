@@ -41,6 +41,12 @@ pip3 install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
+You may need to use this command to run uvicorn from Windows:
+
+``` bash
+python -m uvicorn app.main:app --reload
+```
+
 ### Misc Commands
 
 ```
