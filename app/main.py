@@ -20,11 +20,44 @@ from app.update_canceled_trips import *
 
 from typing import Dict, List
 
-
 from pydantic import BaseModel, Json, ValidationError
 from datetime import date, datetime
 from app.gtfs_rt import *
 
+import logging
+import logging.config
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'logzioFormat': {
+            'format': '{"message": "%(message)s"}',
+            'validate': False
+        }
+    },
+    'handlers': {
+        'logzio': {
+            'class': 'logzio.handler.LogzioHandler',
+            'level': 'INFO',
+            'formatter': 'logzioFormat',
+            'token': 'kEDlRQQyVfOhPgBmUlWgCaoFcBZUFYTh',
+            'logzio_type': 'python',
+            'logs_drain_timeout': 5,
+            'url': 'https://listener.logz.io:8071'
+        }
+    },
+    'loggers': {
+        '': {
+            'level': 'DEBUG',
+            'handlers': ['logzio'],
+            'propagate': True
+        }
+    }
+}
+
+logging.config.dictConfig(LOGGING)
+logger = logging.getLogger('LogzioLogger')
 
 UPDATE_INTERVAL = 300
 PATH_TO_CALENDAR_JSON = 'app/data/calendar_dates.json'
@@ -170,5 +203,13 @@ async def trip_updates():
 
 @app.get("/")
 async def root():
+    # logger.info('test log')
+    # logger.warn('test warning')
+
+    # try:
+    #     1/0
+    # except Exception as e:
+    #     logger.exception(type(e).__name__ + ": " + str(e), exc_info=False)
+
     return {"Metro API Version": "2.0.5"}
 
