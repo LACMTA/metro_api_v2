@@ -20,12 +20,13 @@ from app.update_canceled_trips import *
 
 from typing import Dict, List
 
+
 from pathlib import Path
 
 from pydantic import BaseModel, Json, ValidationError
 from datetime import date, datetime
 from app.gtfs_rt import *
-
+from .logging import *
 
 UPDATE_INTERVAL = 300
 PATH_TO_CALENDAR_JSON = 'app/data/calendar_dates.json'
@@ -190,5 +191,13 @@ async def vehicle_positions(service):
 
 @app.get("/")
 async def root():
+    # logger.info('test log')
+    # logger.warn('test warning')
+
+    # try:
+    #     1/0
+    # except Exception as e:
+    #     logger.exception(type(e).__name__ + ": " + str(e), exc_info=False)
+
     return {"Metro API Version": "2.0.5"}
 
