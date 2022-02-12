@@ -10,35 +10,38 @@ import schedule
 
 import pytz
 
-from fastapi import FastAPI,Request,Depends, HTTPException,status
+from typing import Dict, List
+
+from datetime import timedelta, date, datetime
+
+from fastapi import FastAPI, Request, Depends, HTTPException,status
+from pydantic import BaseModel, Json, ValidationError
 
 from starlette.middleware.cors import CORSMiddleware
 
 # for OAuth2
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
 
 
-from app.config import Config
-from app.models import *
-from app.security import *
-
-from app.update_canceled_trips import *
-
-from typing import Dict, List
+# from app.models import *
+# from app.security import *
+# from app.update_canceled_trips import *
 
 
-from pydantic import BaseModel, Json, ValidationError
-from datetime import date, datetime
-from app.gtfs_rt import *
+
+from . import crud, models, security, schemas, update_canceled_trips
+from .database import Session, engine, session, get_db
+from .config import Config
+from .gtfs_rt import *
 
 UPDATE_INTERVAL = 300
 PATH_TO_CALENDAR_JSON = 'app/data/calendar_dates.json'
 PATH_TO_CANCELED_JSON = 'app/data/CancelledTripsRT.json'
 
+models.Base.metadata.create_all(bind=engine)
+
 app = FastAPI(docs_url="/")
 # db = connect(host='', port=0, timeout=None, source_address=None)
-
-
 
 # code from https://schedule.readthedocs.io/en/stable/background-execution.html
 def run_continuously(interval=UPDATE_INTERVAL):
@@ -97,14 +100,51 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # Begin Routes
 
-@app.get("/users/me")
-async def read_users_me(current_user: User = Depends(get_current_user)):
-    return current_user
+# @app.get("/users/me")
+# async def read_users_me(current_user: User = Depends(get_current_user)):
+#     return current_user
 
 
-@app.get("/items/")
-async def read_items(token: str = Depends(oauth2_scheme)):
-    return {"token": token}
+# begin tokens
+
+@app.post("/token", response_model=schemas.Token)
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
+    user = crud.authenticate_user(models.User, form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token_expires = timedelta(minutes=Config.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = crud.create_access_token(
+        data={"sub": user.username}, expires_delta=access_token_expires
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
+
+
+
+
+# end tokens
+
+
+@app.post("/users/", response_model=schemas.User)
+def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_email(db, email=user.email)
+    if db_user:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    return crud.create_user(db=db, user=user)
+
+@app.get("/users/{user_id}", response_model=schemas.User)
+def read_user(user_id: int, db: Session = Depends(get_db)):
+    db_user = crud.get_user(db, user_id=user_id)
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return db_user
+
+# @app.get("/items/")
+# async def read_items(token: str = Depends(oauth2_scheme)):
+#     return {"token": token}
 
 @app.get("/calendar_dates/")
 async def get_calendar_dates():

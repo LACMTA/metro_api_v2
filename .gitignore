@@ -3,3 +3,4 @@ docker-compose.yml
 .env
 .envrc
 sandbox/
+docker-compose.yml
