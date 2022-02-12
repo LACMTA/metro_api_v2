@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 # from dotenv import dotenv_values
 
 try:
-    load_dotenv("")
+    load_dotenv()
     print('.env loaded')
 except Exception as e:
     print(e)
