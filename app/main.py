@@ -23,41 +23,7 @@ from typing import Dict, List
 from pydantic import BaseModel, Json, ValidationError
 from datetime import date, datetime
 from app.gtfs_rt import *
-
-import logging
-import logging.config
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'logzioFormat': {
-            'format': '{"message": "%(message)s"}',
-            'validate': False
-        }
-    },
-    'handlers': {
-        'logzio': {
-            'class': 'logzio.handler.LogzioHandler',
-            'level': 'INFO',
-            'formatter': 'logzioFormat',
-            'token': 'kEDlRQQyVfOhPgBmUlWgCaoFcBZUFYTh',
-            'logzio_type': 'python',
-            'logs_drain_timeout': 5,
-            'url': 'https://listener.logz.io:8071'
-        }
-    },
-    'loggers': {
-        '': {
-            'level': 'DEBUG',
-            'handlers': ['logzio'],
-            'propagate': True
-        }
-    }
-}
-
-logging.config.dictConfig(LOGGING)
-logger = logging.getLogger('LogzioLogger')
+from .logging import *
 
 UPDATE_INTERVAL = 300
 PATH_TO_CALENDAR_JSON = 'app/data/calendar_dates.json'
