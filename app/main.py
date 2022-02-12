@@ -27,8 +27,6 @@ from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
 # from app.security import *
 # from app.update_canceled_trips import *
 
-
-
 from . import crud, models, security, schemas, update_canceled_trips
 from .database import Session, engine, session, get_db
 from .config import Config
@@ -108,8 +106,10 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 # begin tokens
 
 @app.post("/token", response_model=schemas.Token)
-async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = crud.authenticate_user(models.User, form_data.username, form_data.password)
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(),db: Session = Depends(get_db)):
+    print('from login_for_access_token: ')
+    print(type(db))
+    user = crud.authenticate_user(form_data.username, form_data.password,db)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

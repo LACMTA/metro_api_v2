@@ -17,6 +17,8 @@ Base = declarative_base(metadata=MetaData(schema="metro_api"))
 def get_db():
     db = Session()
     try:
+        print('From database.py: ')
+        print(type(db))
         yield db
     finally:
         db.close()

@@ -15,6 +15,10 @@ from .database import Session,get_db
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
+print('Config.SECRET_KEY')
+print(Config.SECRET_KEY)
+print('Config.DB_URI')
+print(Config.DB_URI)
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
@@ -24,11 +28,10 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 def get_user(db, username: str):
-    print(db)
-    print(username)
-    if models.User[username]:
-        user_dict = models.User[username]
-        return schemas.UserInDB(**user_dict)
+    the_query = db.query(models.User).filter(models.User.username == username).first()
+    # user_dict = models.User[username]
+    # return schemas.UserInDB(**user_dict)
+    return the_query
 
 async def get_current_user(token: str = Depends(oauth2_scheme),db: Session = Depends(get_db)):
     credentials_exception = HTTPException(
@@ -49,8 +52,10 @@ async def get_current_user(token: str = Depends(oauth2_scheme),db: Session = Dep
         raise credentials_exception
     return user
 
-def authenticate_user(username: str, password: str,db: Session = Depends(get_db)):
-    user = get_user(models.User, username)
+def authenticate_user(username: str, password: str, db: Session):
+    print('from authenticate_user: ')
+    print(db)
+    user = get_user(db, username)
     if not user:
         return False
     if not verify_password(password, user.hashed_password):
@@ -64,7 +69,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     else:
         expire = datetime.utcnow() + timedelta(minutes=15)
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, config.SECRET_KEY, algorithm=config.ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, Config.SECRET_KEY, algorithm=Config.ALGORITHM)
     return encoded_jwt
 
 def get_user_by_email(db: Session, email: str):
@@ -76,8 +81,10 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 
 
 def create_user(db: Session, user: schemas.UserCreate):
-    fake_hashed_password = pwd_context.hash(user.password)
-    db_user = models.User(username=user.username,email=user.email, hashed_password=fake_hashed_password)
+    print("From Create User:")
+    print(type(db))
+    hashed_password = pwd_context.hash(user.password)
+    db_user = models.User(username=user.username,email=user.email, hashed_password=hashed_password)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
