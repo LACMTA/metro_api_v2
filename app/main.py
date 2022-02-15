@@ -62,7 +62,7 @@ def run_continuously(interval=UPDATE_INTERVAL):
             while not cease_continuous_run.is_set():
                 schedule.run_pending()
                 time.sleep(interval)
-                Config.API_LAST_UPDATE_TIME = datetime.datetime.now()
+                # Config.API_LAST_UPDATE_TIME = datetime.datetime.now()
     continuous_thread = ScheduleThread()
     continuous_thread.start()
     return cease_continuous_run

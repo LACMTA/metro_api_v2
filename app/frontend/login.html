@@ -8,7 +8,7 @@
     <script src="https://lacmta.github.io/design-system/dist/js/uswds.min.js"></script>
     <script src="https://lacmta.github.io/design-system/dist/js/uswds-init.min.js"></script>
 </head>
-<body>
+  <body>
     <main id="main-content">
         <div class="bg-base-lightest">
           <section class="grid-container usa-section">
@@ -18,7 +18,7 @@
                   class="bg-white padding-y-3 padding-x-5 border border-base-lighter"
                 >
                   <h1 class="margin-bottom-0">Sign in</h1>
-                  <form class="usa-form">
+                  <form class="usa-form" id="loginForm>
                     <fieldset class="usa-fieldset">
                       <legend class="usa-legend usa-legend--large">
                         Access your account
@@ -82,5 +82,41 @@
           </section>
         </div>
       </main>  
-</body>
+  </body>
+<script>
+  window.addEventListener( "load", function () {
+    function sendData() {
+      const XHR = new XMLHttpRequest();
+  
+      // Bind the FormData object and the form element
+      const FD = new FormData( form );
+  
+      // Define what happens on successful data submission
+      XHR.addEventListener( "load", function(event) {
+        alert( event.target.responseText );
+      } );
+  
+      // Define what happens in case of error
+      XHR.addEventListener( "error", function( event ) {
+        alert( 'Oops! Something went wrong.' );
+      } );
+  
+      // Set up our request
+      XHR.open( "POST", "/token" );
+  
+      // The data sent is what the user provided in the form
+      XHR.send( FD );
+    }
+  
+    // Access the form element...
+    const form = document.getElementById( "loginForm" );
+  
+    // ...and take over its submit event.
+    form.addEventListener( "submit", function ( event ) {
+      event.preventDefault();
+  
+      sendData();
+    } );
+  } );
+</script>
 </html>
