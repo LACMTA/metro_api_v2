@@ -50,9 +50,8 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI(docs_url="/")
 # db = connect(host='', port=0, timeout=None, source_address=None)
 
-templates = Jinja2Templates(directory="frontend")
-app.mount("/", StaticFiles(directory="frontend"))
-
+templates = Jinja2Templates(directory="app/frontend")
+app.mount("/", StaticFiles(directory="app/frontend"))
 
 # code from https://schedule.readthedocs.io/en/stable/background-execution.html
 def run_continuously(interval=UPDATE_INTERVAL):

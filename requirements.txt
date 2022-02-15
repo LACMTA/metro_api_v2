@@ -15,3 +15,4 @@ passlib[bcrypt]
 # GeoAlchemy2
 logzio-python-handler
 aiofiles
+jinja2
