@@ -12,7 +12,6 @@ SERVICE_DICT = {
 
 
 SWIFTLY_GTFS_RT_TRIP_UPDATES = 'gtfs-rt-trip-updates'
-SWIFTLY_GTFS_RT_ALERTS = 'gtfs-rt-alerts'
 SWIFTLY_GTFS_RT_VEHICLE_POSITIONs = 'gtfs-rt-vehicle-positions'
 
 # SWIFTLY_API_REALTIME = 'https://api.goswift.ly/real-time/lametro-rail/gtfs-rt-trip-updates?format=json'
@@ -64,16 +63,6 @@ def get_trip_updates(service):
             print('Error reading file: ' + output_file)
     else:
         print('Invalid service: ' + service)
-
-def get_alerts(service):
-    print('get_alerts called with service: ' + service)
-    if (service == 'bus' or service == 'rail'):
-        output_file = TARGET_FOLDER + service + '-' + SWIFTLY_GTFS_RT_ALERTS + '.json'
-        connect_to_swiftly(service, SWIFTLY_GTFS_RT_ALERTS, output_file)
-
-        with open(output_file, 'r') as file:
-            alerts_json = json.loads(file.read())
-            return alerts_json
 
 def get_vehicle_positions(service):
     print('get_vehicle_positions called with service: ' + service)

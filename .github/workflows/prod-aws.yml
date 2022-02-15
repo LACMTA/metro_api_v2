@@ -1,0 +1,63 @@
+# This workflow will upload a Python Package using Twine when a release is created
+# For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# Source Partly from: https://aws.amazon.com/getting-started/guides/deploy-webapp-lightsail/module-four/
+
+name: Deploy Docker Image to AWS Lightsail Container Service
+
+on:
+  push:
+    branches: 
+      - main
+  pull_request:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      SERVICE_NAME: ${{ secrets.SERVICE_NAME }}
+      FTP_PASS: ${{ secrets.FTP_PASS }}
+      FTP_USERNAME: ${{ secrets.FTP_USER }}
+      FTP_SERVER: ${{ secrets.FTP_SERVER }}
+    steps:
+      - uses: actions/checkout@master
+      - name: Upgrade AWS CLI version and setup lightsailctl
+        run: | 
+          aws --version
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
+          which aws
+          aws --version
+          sudo curl "https://s3.us-west-2.amazonaws.com/lightsailctl/latest/linux-amd64/lightsailctl" -o "/usr/local/bin/lightsailctl"
+          sudo chmod +x /usr/local/bin/lightsailctl
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: lacmta/metro-api-v2:latest
+      - name: Push Updated Docker Image on Lightsail
+        run: >
+          aws lightsail create-container-service-deployment 
+          --service-name metro-api-v2 
+          --containers '{"metro-api-v2": {"image":"lacmta/metro-api-v2:latest","ports":{"80":"HTTP"},"environment":{"FTP_PASS":"${{secrets.FTP_PASS }}","FTP_SERVER":"${{secrets.FTP_SERVER }}","FTP_USERNAME":"${{secrets.FTP_USERNAME }}","SWIFTLY_AUTH_KEY_BUS":"${{secrets.SWIFTLY_AUTH_KEY_BUS}}","SWIFTLY_AUTH_KEY_RAIL":"${{secrets.SWIFTLY_AUTH_KEY_RAIL}}","URI":"${{secrets.URI}}","HASH_KEY":"${{secrets.HASH_KEY}}","HASHING_ALGORITHM":"${{secrets.HASHING_ALGORITHM}}"}}}' --public-endpoint '{"containerName": "metro-api-v2","containerPort": 80,"healthCheck":{ "healthyThreshold": 2,"unhealthyThreshold": 2,"timeoutSeconds": 2,"intervalSeconds": 5,"path": "/","successCodes": "200-499"}}'
