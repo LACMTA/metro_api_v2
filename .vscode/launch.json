@@ -10,6 +10,13 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: UNVICORN",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/uvicorn app.main:app --reload",
+            "console": "integratedTerminal"
         }
     ]
 }

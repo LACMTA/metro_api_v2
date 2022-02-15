@@ -1,13 +1,11 @@
-from pydantic import BaseModel, Json, ValidationError
-from app.config import Config
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 
-class CanceledServiceData(BaseModel):
-    gtfs_trip_id: str
-    trip_route: str
-    stop_description_first: str
-    stop_description_last: str
-    trip_time_start: str
-    trip_time_end: str
-    trip_direction: str
-
+from .database import Base
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String)
+    email = Column(String, unique=True, index=True)
+    hashed_password = Column(String)
+    is_active = Column(Boolean, default=True)
 
