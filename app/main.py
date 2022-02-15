@@ -119,8 +119,6 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 @app.post("/token", response_model=schemas.Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(),db: Session = Depends(get_db)):
-    print('from login_for_access_token: ')
-    print(type(db))
     user = crud.authenticate_user(form_data.username, form_data.password,db)
     if not user:
         raise HTTPException(
