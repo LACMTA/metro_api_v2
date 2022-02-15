@@ -6,13 +6,15 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
+# Holding onto this code for future reference.
+
 name: Build and publish Docker Image to DockerHub
 
-on:
-  # push:
-    # branches: 
-      # - main
-  pull_request:
+# on:
+#   # push:
+#     # branches: 
+#       # - main
+#   pull_request:
 
 jobs:
   deploy:
