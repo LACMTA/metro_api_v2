@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+    api:
+        ports:
+            - '80:80/tcp'
+        image: 'metro-api-v2:metro-api-v2'
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            FTP_SERVER: ${FTP_SERVER}
+            FTP_USERNAME: ${FTP_USERNAME}
+            FTP_PASS: ${FTP_PASS}
+            SWIFTLY_AUTH_KEY_BUS: ${SWIFTLY_AUTH_KEY_BUS}
+            SWIFTLY_AUTH_KEY_RAIL: ${SWIFTLY_AUTH_KEY_RAIL}
+            AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+            ACCESS_SECRET_KEY: ${ACCESS_SECRET_KEY}
+            SWIFTLY_AUTH_KEY: ${SWIFTLY_AUTH_KEY}
+            URI: ${URI}
+            HASH_KEY: ${HASH_KEY}
+            HASHING_ALGORITHM: ${HASHING_ALGORITHM}

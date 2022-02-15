@@ -1,4 +1,5 @@
 # import data modules
+from distutils.command.config import config
 import json
 import requests
 import csv
@@ -15,6 +16,11 @@ from typing import Dict, List
 from datetime import timedelta, date, datetime
 
 from fastapi import FastAPI, Request, Depends, HTTPException,status
+from fastapi.responses import RedirectResponse,HTMLResponse
+
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+
 from pydantic import BaseModel, Json, ValidationError
 
 from starlette.middleware.cors import CORSMiddleware
@@ -44,6 +50,10 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI(docs_url="/")
 # db = connect(host='', port=0, timeout=None, source_address=None)
 
+templates = Jinja2Templates(directory="frontend")
+app.mount("/", StaticFiles(directory="frontend"))
+
+
 # code from https://schedule.readthedocs.io/en/stable/background-execution.html
 def run_continuously(interval=UPDATE_INTERVAL):
     cease_continuous_run = threading.Event()
@@ -53,7 +63,7 @@ def run_continuously(interval=UPDATE_INTERVAL):
             while not cease_continuous_run.is_set():
                 schedule.run_pending()
                 time.sleep(interval)
-    
+                Config.API_LAST_UPDATE_TIME = datetime.datetime.now()
     continuous_thread = ScheduleThread()
     continuous_thread.start()
     return cease_continuous_run
@@ -249,15 +259,24 @@ async def vehicle_positions(service):
 # async def root():
 #     return {"Metro API Version": "2.0.3"}
 
-@app.get("/")
-async def root():
-    # logger.info('test log')
-    # logger.warn('test warning')
+# Frontend Routing
 
-    # try:
-    #     1/0
-    # except Exception as e:
-    #     logger.exception(type(e).__name__ + ": " + str(e), exc_info=False)
+@app.get("/login",response_class=HTMLResponse)
+def login(request:Request):
+    return templates.TemplateResponse("login.html", context= {"request": request})
 
-    return {"Metro API Version": "2.0.5"}
+@app.get("/",response_class=HTMLResponse)
+def index(request:Request):
+    # test_logging()
+    default_update = datetime.fromtimestamp((Config.API_LAST_UPDATE_TIME)).astimezone(pytz.timezone("America/Los_Angeles"))
+    human_readable_default_update = default_update.strftime('%Y-%m-%d %H:%M')
+    return templates.TemplateResponse("index.html", context= {"request": request,"api_version":Config.CURRENT_VERSION,"update_time":human_readable_default_update})
 
+def test_logging():
+    logger.info('test log')
+    logger.warn('test warning')
+
+    try:
+        1/0
+    except Exception as e:
+        logger.exception(type(e).__name__ + ": " + str(e), exc_info=False)
