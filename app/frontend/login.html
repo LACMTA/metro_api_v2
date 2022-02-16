@@ -18,18 +18,18 @@
                   class="bg-white padding-y-3 padding-x-5 border border-base-lighter"
                 >
                   <h1 class="margin-bottom-0">Sign in</h1>
-                  <form class="usa-form" id="loginForm>
+                  <form class="usa-form" id="loginForm">
                     <fieldset class="usa-fieldset">
                       <legend class="usa-legend usa-legend--large">
                         Access your account
                       </legend>
   
-                      <label class="usa-label" for="email"> Email address </label>
+                      <label class="usa-label" for="username"> username </label>
                       <input
                         class="usa-input"
-                        id="email"
-                        name="email"
-                        type="email"
+                        id="username"
+                        name="username"
+                        type="username"
                         autocapitalize="off"
                         autocorrect="off"
                         required
@@ -86,6 +86,12 @@
 <script>
   window.addEventListener( "load", function () {
     function sendData() {
+      const URL = '/token'
+      const data = {
+        "userId": 1,
+        "title": "delectus aut autem",
+        "completed": false
+     };
       const XHR = new XMLHttpRequest();
   
       // Bind the FormData object and the form element
@@ -109,14 +115,13 @@
     }
   
     // Access the form element...
-    const form = document.getElementById( "loginForm" );
-  
+    let form = document.getElementById( "loginForm" );
+    console.log(form);
     // ...and take over its submit event.
     form.addEventListener( "submit", function ( event ) {
-      event.preventDefault();
-  
+      event.preventDefault();  
       sendData();
-    } );
-  } );
+    });
+  });
 </script>
 </html>

@@ -33,7 +33,8 @@ from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
 # from app.security import *
 # from app.update_canceled_trips import *
 
-from . import crud, models, security, schemas, update_canceled_trips
+from . import crud, models, security, schemas
+from .update_canceled_trips import *
 from .database import Session, engine, session, get_db
 from .config import Config
 from .gtfs_rt import *
@@ -157,7 +158,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 #     return {"token": token}
 
 @app.get("/calendar_dates/")
-async def get_calendar_dates():
+async def get_calendar_dates(token: str = Depends(oauth2_scheme)):
     with open(PATH_TO_CALENDAR_JSON, 'r') as file:
         calendar_dates = json.loads(file.read())
         return {"calendar_dates":calendar_dates}
