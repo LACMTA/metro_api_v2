@@ -18,7 +18,7 @@
                   class="bg-white padding-y-3 padding-x-5 border border-base-lighter"
                 >
                   <h1 class="margin-bottom-0">Sign in</h1>
-                  <form class="usa-form" id="loginForm">
+                  <form class="usa-form" id="loginForm" action="/">
                     <fieldset class="usa-fieldset">
                       <legend class="usa-legend usa-legend--large">
                         Access your account
@@ -99,7 +99,15 @@
   
       // Define what happens on successful data submission
       XHR.addEventListener( "load", function(event) {
-        alert( event.target.responseText );
+        console.log(event.target.status);
+        if (event.target.status === 200) {
+          window.location.href = "/";
+        }
+        else{
+          let thisResponse = JSON.parse(event.target.responseText)
+          alert("Error: " + thisResponse.detail);
+        }
+
       } );
   
       // Define what happens in case of error
@@ -108,7 +116,7 @@
       } );
   
       // Set up our request
-      XHR.open( "POST", "/token" );
+      XHR.open( "POST", "/" );
   
       // The data sent is what the user provided in the form
       XHR.send( FD );

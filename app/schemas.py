@@ -1,5 +1,5 @@
-from typing import Optional
-from pydantic import BaseModel, Json, ValidationError
+from typing import Optional,List
+from pydantic import BaseModel, Json, ValidationError,EmailStr
 
 from .config import Config
 
@@ -27,6 +27,9 @@ class User(UserBase):
 
 class UserInDB(User):
     hashed_password: str
+
+class EmailSchema(BaseModel):
+    email: List[EmailStr]
 
 class CanceledServiceData(BaseModel):
     gtfs_trip_id: str

@@ -12,7 +12,7 @@ SQLAlchemy<1.4
 psycopg2
 python-jose[cryptography]
 passlib[bcrypt]
-# GeoAlchemy2
-logzio-python-handler
 aiofiles
+# GeoAlchemy2
 jinja2
+fastapi-mail

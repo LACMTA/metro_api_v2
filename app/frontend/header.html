@@ -58,6 +58,14 @@
             <span class="usa-sr-only">Search</span>
           </button>
         </form>
+        <ul>
+          {% if username %}
+          Hello {{username}}
+          <a href="/logout/">Logout</a>
+          {% else %}
+          <a href="/login/">Login</a>
+          {% endif %}
+        </ul>
       </nav>
     </div>
   </header>

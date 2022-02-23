@@ -24,10 +24,10 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Json, ValidationError
 
 from starlette.middleware.cors import CORSMiddleware
+from starlette.responses import RedirectResponse,JSONResponse
 
 # for OAuth2
-from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
-
+from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm,HTTPBasic,HTTPBasicCredentials
 
 # from app.models import *
 # from app.security import *
@@ -36,8 +36,9 @@ from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
 from . import crud, models, security, schemas
 from .update_canceled_trips import *
 from .database import Session, engine, session, get_db
-from .config import Config
+from .config import Config,conf
 from .gtfs_rt import *
+from .email import *
 from pathlib import Path
 
 from .logging import *
@@ -48,11 +49,15 @@ PATH_TO_CANCELED_JSON = 'app/data/CancelledTripsRT.json'
 
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI(docs_url="/")
+app = FastAPI(docs_url="/",version=Config.CURRENT_VERSION)
+
 # db = connect(host='', port=0, timeout=None, source_address=None)
 
 templates = Jinja2Templates(directory="app/frontend")
 app.mount("/", StaticFiles(directory="app/frontend"))
+
+# for webpage security
+security = HTTPBasic()
 
 # code from https://schedule.readthedocs.io/en/stable/background-execution.html
 def run_continuously(interval=UPDATE_INTERVAL):
@@ -118,7 +123,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # begin tokens
 
-@app.post("/token", response_model=schemas.Token)
+@app.post("/token", response_model=schemas.Token,)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(),db: Session = Depends(get_db)):
     user = crud.authenticate_user(form_data.username, form_data.password,db)
     if not user:
@@ -134,6 +139,20 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     return {"access_token": access_token, "token_type": "bearer"}
 
 
+@app.post("/",response_class=HTMLResponse)
+def index(request:Request,form_data: OAuth2PasswordRequestForm = Depends(),credentials: HTTPBasicCredentials = Depends(security),db: Session = Depends(get_db)):
+    # test_logging()
+    user = crud.authenticate_user(form_data.username, form_data.password,db)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )   
+    default_update = datetime.fromtimestamp((Config.API_LAST_UPDATE_TIME)).astimezone(pytz.timezone("America/Los_Angeles"))
+    human_readable_default_update = default_update.strftime('%Y-%m-%d %H:%M')
+    return templates.TemplateResponse("index.html", context= {"request": request,"api_version":Config.CURRENT_VERSION,"update_time":human_readable_default_update,"username":credentials.username})
+
 
 
 # end tokens
@@ -145,6 +164,25 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
     return crud.create_user(db=db, user=user)
+
+html = """
+<p> Hello! This is a test email from FastAPI-mail</p>
+
+"""
+
+@app.post("/email")
+async def simple_send(
+    email: EmailSchema) -> JSONResponse:
+    message = MessageSchema(
+        subject='FAST API Test',
+        recipients=email.dict().get("email"),
+        body=html,
+        subtype="html"
+    )
+    fm = FastMail(conf)
+    await fm.send_message(message)
+    return JSONResponse(status_code=200, content={"message": "email has been sent"})
+
 
 @app.get("/users/{user_id}", response_model=schemas.User)
 def read_user(user_id: int, db: Session = Depends(get_db)):
@@ -263,12 +301,19 @@ async def vehicle_positions(service):
 def login(request:Request):
     return templates.TemplateResponse("login.html", context= {"request": request})
 
+@app.get("/logout",response_class=HTMLResponse)
+def logout(request:Request,credentials: HTTPBasicCredentials = Depends(security)):
+    return RedirectResponse("/",context= {"request": request})
+    # return templates.TemplateResponse("index.html", context= {"request": request})
+    # return templates.TemplateResponse("index.html", context= {"request": request})
+
 @app.get("/",response_class=HTMLResponse)
-def index(request:Request):
+def index(request:Request,credentials: HTTPBasicCredentials = Depends(security)):
     # test_logging()
     default_update = datetime.fromtimestamp((Config.API_LAST_UPDATE_TIME)).astimezone(pytz.timezone("America/Los_Angeles"))
     human_readable_default_update = default_update.strftime('%Y-%m-%d %H:%M')
-    return templates.TemplateResponse("index.html", context= {"request": request,"api_version":Config.CURRENT_VERSION,"update_time":human_readable_default_update})
+    return templates.TemplateResponse("index.html", context= {"request": request,"api_version":Config.CURRENT_VERSION,"update_time":human_readable_default_update,"username":credentials.username})
+
 
 def test_logging():
     logger.info('test log')
