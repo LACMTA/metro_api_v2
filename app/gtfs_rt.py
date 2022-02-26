@@ -61,8 +61,8 @@ def connect_to_swiftly(service, endpoint, output_file, output_format):
         print("Error:" + str(e))
         print('Error writing to file: ' + output_file)
 
-def write_output_file(output_format):
-    pass
+# def write_output_file(output_format):
+#     pass
 
 
 def get_trip_updates(service, output_format):
@@ -105,11 +105,11 @@ def get_vehicle_positions(service, output_format):
                 file.close()
                 return vehicle_positions_proto
 
-def write_output_file(output_format):
-    output_file = TARGET_FOLDER + service + '-' + SWIFTLY_GTFS_RT_VEHICLE_POSITIONS + '.json'
-    connect_to_swiftly(service, SWIFTLY_GTFS_RT_VEHICLE_POSITIONS, output_file, output_format)
-    with open(output_file, 'r') as file:
-        vehicle_positions_json = json.loads(file.read())
-    return vehicle_positions_json
-    # pass
+# def write_output_file(output_format):
+#     output_file = TARGET_FOLDER + service + '-' + SWIFTLY_GTFS_RT_VEHICLE_POSITIONS + '.json'
+#     connect_to_swiftly(service, SWIFTLY_GTFS_RT_VEHICLE_POSITIONS, output_file, output_format)
+#     with open(output_file, 'r') as file:
+#         vehicle_positions_json = json.loads(file.read())
+#     return vehicle_positions_json
+#     # pass
 
