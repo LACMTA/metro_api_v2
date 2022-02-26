@@ -11,12 +11,12 @@ import schedule
 
 import pytz
 
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from datetime import timedelta, date, datetime
 
-from fastapi import FastAPI, Request, Depends, HTTPException,status
-from fastapi.responses import RedirectResponse,HTMLResponse
+from fastapi import FastAPI, Request, Response, Depends, HTTPException, status
+from fastapi.responses import RedirectResponse, HTMLResponse
 
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -243,14 +243,35 @@ async def get_time():
 
 
 @app.get("/trip_updates/{service}")
-async def trip_updates(service):
-    result = get_trip_updates(service)
-    return result
+async def trip_updates(service, output_format: Optional[str] = None):
+    result = None
+    valid_formats = ["json"]
+
+    if output_format:
+        if output_format in valid_formats:
+            result = get_trip_updates(service, output_format)
+            return result
+        else:
+            raise HTTPException(status_code=400, detail="Invalid format")
+    else:
+        result = get_trip_updates(service, '')
+        return Response(content=result, media_type="application/x-protobuf")
 
 @app.get("/vehicle_positions/{service}")
-async def vehicle_positions(service):
-    result = get_vehicle_positions(service)
-    return result
+async def vehicle_positions(service, output_format: Optional[str] = None):
+    # format options:
+    # - json
+    result = None
+    valid_formats = ["json"]
+    if output_format:
+        if output_format in valid_formats:
+            result = get_vehicle_positions(service, output_format)
+            return result
+        else:
+            raise HTTPException(status_code=400, detail="Invalid format")
+    else:
+        result = get_vehicle_positions(service, '')
+        return Response(content=result, media_type="application/x-protobuf")
 
 # @app.get("/agencies/")
 # async def root():
