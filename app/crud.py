@@ -82,3 +82,14 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+def verify_token(token: str, credentials_exception):
+    try:
+        payload = jwt.decode(token, Config.SECRET_KEY, algorithms=[Config.ALGORITHM])
+        email: str = payload.get("sub")
+        if email is None:
+            raise credentials_exception
+        token_data = schemas.TokenData(email=email)
+        return token_data
+    except JWTError:
+        raise credentials_exception
