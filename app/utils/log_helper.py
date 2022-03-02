@@ -7,7 +7,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'logzioFormat': {
-            'format': '{"message": "%(message)s"}',
+            'format': '{"message": "%(message)s", "app": "api.metro.net"}',
             'validate': False
         }
     },
@@ -24,7 +24,7 @@ LOGGING = {
     },
     'loggers': {
         '': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'handlers': ['logzio'],
             'propagate': True
         }

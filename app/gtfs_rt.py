@@ -3,6 +3,9 @@ from app.config import Config
 import json
 import requests
 
+from fastapi import HTTPException
+
+from .utils.log_helper import *
 
 SWIFTLY_API_REALTIME = 'https://api.goswift.ly/real-time/'
 
@@ -38,61 +41,58 @@ def connect_to_swiftly(service, endpoint, output_file, output_format):
         "Authorization": key
     }
 
-    print('endpoint: ' + swiftly_endpoint)
     try:
         response = requests.get(swiftly_endpoint, headers=header)
     except Exception as e:
-        print('Error connecting to Swiftly API')
-        print(e)
+        logger.error('Error connecting to Swiftly API: ' + str(e))
         return
 
-    print('response status: ' + str(response.status_code))
+    logger.debug('endpoint: ' + swiftly_endpoint)
+    logger.debug('response status: ' + str(response.status_code))
 
     try:
         if output_format == 'json':
             with open(output_file, 'w') as file:
-                print('Writing file: ' + output_file)
+                logger.debug('Writing json file: ' + output_file)
                 json.dump(response.json(), file)
         else:
             with open(output_file, 'wb') as file:
-                print('Writing file: ' + output_file)
-                file.write(response.content).encode('utf8')
+                logger.debug('Writing protobuf file: ' + output_file)
+                # content = response.content.encode('utf8')
+                file.write(response.content)
     except Exception as e:
-        print("Error:" + str(e))
-        print('Error writing to file: ' + output_file)
-
-# def write_output_file(output_format):
-#     pass
-
+        logger.error('Error writing to file: ' + output_file + ': ' + str(e))
+        
 
 def get_trip_updates(service, output_format):
-    print('get_trip_updates called with service: ' + service)
-    if (service == 'bus' or service == 'rail'):
+    logger.debug('get_trip_updates called with service: ' + service)
+    if service in SERVICE_DICT:
         if (output_format == 'json'):
             output_file = TARGET_FOLDER + service + '-' + SWIFTLY_GTFS_RT_TRIP_UPDATES + '.json'
             connect_to_swiftly(service, SWIFTLY_GTFS_RT_TRIP_UPDATES, output_file, output_format)
             with open(output_file, 'r') as file:
-                print('Reading file: ' + output_file)
+                logger.debug('Reading json file: ' + output_file)
                 trip_updates_json = json.loads(file.read())
                 return trip_updates_json
         else:
             output_file = TARGET_FOLDER + service + '-' + SWIFTLY_GTFS_RT_TRIP_UPDATES + '.pb'
             connect_to_swiftly(service, SWIFTLY_GTFS_RT_TRIP_UPDATES, output_file, output_format)
             with open(output_file, 'rb') as file:
-                print('Reading file: ' + output_file)
-                trip_updates_json = file.read()
-                return trip_updates_json
+                logger.debug('Reading protobuf file: ' + output_file)
+                trip_updates_pb = file.read()
+                return trip_updates_pb
     else:
-        print('Invalid service: ' + service)
+        logger.error('Invalid service: ' + service)
+        raise HTTPException(status_code=400, detail='Invalid service provided')
 
 def get_vehicle_positions(service, output_format):
-    print('get_vehicle_positions called with service: ' + service)
-    if (service == 'bus' or service == 'rail'):
+    logger.debug('get_vehicle_positions called with service: ' + service)
+    if service in SERVICE_DICT:
         if (output_format == 'json'):
             output_file = TARGET_FOLDER + service + '-' + SWIFTLY_GTFS_RT_VEHICLE_POSITIONS + '.json'
             connect_to_swiftly(service, SWIFTLY_GTFS_RT_VEHICLE_POSITIONS, output_file, output_format)
             with open(output_file, 'r') as file:
-                print('Reading file: ' + output_file)
+                logger.debug('Reading json file: ' + output_file)
                 vehicle_positions_json = json.loads(file.read())
                 file.close()
                 return vehicle_positions_json
@@ -100,10 +100,13 @@ def get_vehicle_positions(service, output_format):
             output_file = TARGET_FOLDER + service + '-' + SWIFTLY_GTFS_RT_VEHICLE_POSITIONS + '.pb'
             connect_to_swiftly(service, SWIFTLY_GTFS_RT_VEHICLE_POSITIONS, output_file, output_format)
             with open(output_file, 'rb') as file:
-                print('Reading file: ' + output_file)
+                logger.debug('Reading protobuf file: ' + output_file)
                 vehicle_positions_proto = file.read()
                 file.close()
                 return vehicle_positions_proto
+    else:
+        logger.error('Invalid service: ' + service)
+        raise HTTPException(status_code=400, detail='Invalid service provided')
 
 # def write_output_file(output_format):
 #     output_file = TARGET_FOLDER + service + '-' + SWIFTLY_GTFS_RT_VEHICLE_POSITIONS + '.json'
