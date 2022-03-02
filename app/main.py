@@ -33,14 +33,14 @@ from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
 # from app.security import *
 # from app.update_canceled_trips import *
 
-from . import crud, models, security, schemas
+from . import crud, models, security, schemas, update_canceled_trips
 from .database import Session, engine, session, get_db
 from .config import Config
 from .gtfs_rt import *
 from pathlib import Path
 
 from .utils.log_helper import *
-from .update_canceled_trips import *
+# from .update_canceled_trips import *
 
 UPDATE_INTERVAL = 300
 PATH_TO_CALENDAR_JSON = 'app/data/calendar_dates.json'
@@ -69,7 +69,7 @@ def run_continuously(interval=UPDATE_INTERVAL):
     return cease_continuous_run
 
 def background_job():
-    run_update()
+    update_canceled_trips.run_update()
 
 schedule.every().second.do(background_job)
 

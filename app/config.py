@@ -4,7 +4,7 @@ from .utils.log_helper import *
 # from dotenv import dotenv_values
 
 try:
-    load_dotenv()
+    load_dotenv('.env')
     logger.debug('Environment variables loaded from .env file')
 except Exception as e:
     logger.error('Environment variables not loaded from .env file')
