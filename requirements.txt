@@ -7,3 +7,12 @@ requests
 python-dotenv
 pytz
 schedule
+python-multipart
+SQLAlchemy<1.4
+psycopg2
+python-jose[cryptography]
+passlib[bcrypt]
+# GeoAlchemy2
+logzio-python-handler
+aiofiles
+jinja2

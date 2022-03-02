@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metro API {{api_version}} FRONTEND IN APP</title>
+    <link rel="stylesheet" href="https://lacmta.github.io/design-system/dist/css/uswds.min.css" type="text/css">
+</head>
+<body>
+    <a class="usa-skipnav" href="#main-content">Skip to main content</a>
+    <div class="usa-overlay"></div>
+    {% include 'header.html' %}
+    <div class="usa-section">
+      <div class="grid-container">
+        <div class="grid-row grid-gap">
+          <main class="
+              usa-layout-docs__main
+              desktop:grid-col-12
+              usa-prose usa-layout-docs
+            " id="main-content">
+            <h1>Metro API v{{api_version}}</h1>
+            <div class="usa-alert usa-alert--info usa-alert--slim">
+              <div class="usa-alert__body">
+                <p class="usa-alert__text">
+                  <b>Last updated: {{update_time}}</b>
+                  <span id="last_updated_label"></span>
+                </p>
+              </div>
+            </div>
+  
+            <p class="usa-intro">
+              Welcome to the Metro API.  This API currently provides access to the following data:
+            </p>
+            <ul>
+              <li>Real Time System Data
+                <ul>
+                  <li>GTFS-rt Trip Updates</li>
+                  <li>GTFS-rt Vehicle Positions</li>
+                  <li>Canceled Bus Service</li>
+                </ul>
+              </li>
+              <li>Static System Data
+                <ul>
+                  <li>Weekly calendar_dates.txt Updates</li>
+                </ul>
+              </li>
+              </ul>
+
+          </main>
+        </div>
+      </div>
+    </div>
+    <script src="https://lacmta.github.io/design-system/dist/js/uswds-init.min.js"></script>
+    <script src="https://lacmta.github.io/design-system/dist/js/uswds.min.js"></script>
+</body>
+</html>
