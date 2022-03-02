@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Metro API {{api_version}} FRONTEND IN APP</title>
     <link rel="stylesheet" href="https://lacmta.github.io/design-system/dist/css/uswds.min.css" type="text/css">
-    <script src="https://lacmta.github.io/design-system/dist/js/uswds.min.js"></script>
-    <script src="https://lacmta.github.io/design-system/dist/js/uswds-init.min.js"></script>
 </head>
 <body>
     <a class="usa-skipnav" href="#main-content">Skip to main content</a>
@@ -31,11 +29,28 @@
             </div>
   
             <p class="usa-intro">
-              Welcome to the Metro API. This is a RESTful API that provides access to the Metro data.
+              Welcome to the Metro API.  This API currently provides access to the following data:
             </p>
+            <ul>
+              <li>Real Time System Data
+                <ul>
+                  <li>GTFS-rt Trip Updates</li>
+                  <li>GTFS-rt Vehicle Positions</li>
+                  <li>Canceled Bus Service</li>
+                </ul>
+              </li>
+              <li>Static System Data
+                <ul>
+                  <li>Weekly calendar_dates.txt Updates</li>
+                </ul>
+              </li>
+              </ul>
+
           </main>
         </div>
       </div>
     </div>
+    <script src="https://lacmta.github.io/design-system/dist/js/uswds-init.min.js"></script>
+    <script src="https://lacmta.github.io/design-system/dist/js/uswds.min.js"></script>
 </body>
 </html>
