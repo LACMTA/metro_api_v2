@@ -11,6 +11,7 @@ from jose import JWTError, jwt
 from . import models, schemas
 from .config import Config
 from .database import Session,get_db
+from .utils.log_helper import *
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -48,8 +49,8 @@ async def get_current_user(token: str = Depends(oauth2_scheme),db: Session = Dep
     return user
 
 def authenticate_user(username: str, password: str, db: Session):
-    print('from authenticate_user: ')
-    print(db)
+    log.debug('from authenticate_user: ')
+    log.debug(db)
     user = get_user(db, username)
     if not user:
         return False
