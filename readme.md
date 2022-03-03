@@ -1,6 +1,11 @@
 # Metro API v2
 Metro API v2 is an API for Metro's GTFS-RT data.
 
+## Versioning
+
+Metro API v2 uses a modified version of [Semantic Versioning](https://semver.org/), with major (`X`), minor(`x`), and hotfix(`*`) releases for the numbers respectively: `X.x.*`.
+
+More versioning information can be found in [versioning.md](versioning.md)
 ## Getting started
 
 ### Prerequistes
