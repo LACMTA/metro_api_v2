@@ -300,8 +300,12 @@ def login(request:Request):
 def index(request:Request):
     logger.info("GET /")
     # test_logging()
-    default_update = datetime.fromtimestamp((Config.API_LAST_UPDATE_TIME)).astimezone(pytz.timezone("America/Los_Angeles"))
-    human_readable_default_update = default_update.strftime('%Y-%m-%d %H:%M')
+    human_readable_default_update = None
+    try:
+        default_update = datetime.fromtimestamp((Config.API_LAST_UPDATE_TIME)).astimezone(pytz.timezone("America/Los_Angeles"))
+        human_readable_default_update = default_update.strftime('%Y-%m-%d %H:%M')
+    except Exception as e:
+        logger.exception(type(e).__name__ + ": " + str(e), exc_info=False)
     return templates.TemplateResponse("index.html", context= {"request": request,"api_version":Config.CURRENT_VERSION,"update_time":human_readable_default_update})
 
 def test_logging():
