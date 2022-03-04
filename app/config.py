@@ -5,10 +5,11 @@ from .utils.log_helper import *
 
 try:
     load_dotenv('.env')
-    logger.debug('Environment variables loaded from .env file')
+    #logger.debug('Environment variables loaded from .env file')
 except Exception as e:
-    logger.error('Environment variables not loaded from .env file')
-    logger.error(e)
+    pass
+    #logger.error('Environment variables not loaded from .env file')
+    #logger.error(e)
 
 class Config:
     DB_URI = os.environ.get('URI')

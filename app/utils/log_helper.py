@@ -1,4 +1,3 @@
-
 import logging
 import logging.config
 
@@ -30,5 +29,5 @@ LOGGING = {
         }
     }
 }
-logging.config.dictConfig(LOGGING)
-logger = logging.getLogger('LogzioLogger')
+# logging.config.dictConfig(LOGGING)
+# logger = logging.getLogger()

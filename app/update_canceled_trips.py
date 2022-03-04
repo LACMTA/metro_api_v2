@@ -7,14 +7,15 @@ REMOTEPATH = '/nextbus/prod/'
 LOCALPATH = 'app/data/'
 # ftp_json_file_time = ''
 
-logger.info('update_canceled_trips.py loaded')
+#logger.info('update_canceled_trips.py loaded')
 
 def run_update():
     try:
-        logger.info('run_update()')
+        #logger.info('run_update()')
         if connect_to_ftp(REMOTEPATH, Config.SERVER, Config.USERNAME, Config.PASS):
             get_file_from_ftp(TARGET_FILE, LOCALPATH)
             # ftp_json_file_time = file_modified_time
         disconnect_from_ftp()
     except Exception as e:
-        logger.error('FTP transfer failed: ' + str(e))
+        pass
+        #logger.error('FTP transfer failed: ' + str(e))

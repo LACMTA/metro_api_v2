@@ -28,7 +28,6 @@ from starlette.middleware.cors import CORSMiddleware
 # for OAuth2
 from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
 
-
 # from app.models import *
 # from app.security import *
 # from app.update_canceled_trips import *
@@ -120,7 +119,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 @app.post("/token", response_model=schemas.Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(),db: Session = Depends(get_db),token: str = Depends(oauth2_scheme)):
-    logger.info("POST /token/")
+    #logger.info("POST /token/")
     user = crud.authenticate_user(form_data.username, form_data.password,db)
     if not user:
         raise HTTPException(
@@ -142,7 +141,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 
 @app.post("/users/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db),token: str = Depends(oauth2_scheme)):
-    logger.info("POST /users/")
+    #logger.info("POST /users/")
     db_user = crud.get_user_by_email(db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -150,7 +149,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db),token: s
 
 @app.get("/users/{username}", response_model=schemas.User)
 def read_user(username: str, db: Session = Depends(get_db),token: str = Depends(oauth2_scheme)):
-    logger.info("GET /users/" + username)
+    #logger.info("GET /users/" + username)
 
     db_user = crud.get_user(db, username=username)
     if db_user is None:
@@ -163,7 +162,7 @@ def read_user(username: str, db: Session = Depends(get_db),token: str = Depends(
 
 @app.get("/calendar_dates")
 async def get_calendar_dates():
-    logger.info("GET /calendar_dates")
+    #logger.info("GET /calendar_dates")
     with open(PATH_TO_CALENDAR_JSON, 'r') as file:
         calendar_dates = json.loads(file.read())
         return {"calendar_dates":calendar_dates}
@@ -173,7 +172,7 @@ def standardize_string(input_string):
 
 @app.get("/canceled_service_summary")
 async def get_canceled_trip_summary():
-    logger.info("GET /canceled_service_summary")
+    #logger.info("GET /canceled_service_summary")
 
     canceled_json_file = Path(PATH_TO_CANCELED_JSON)
     try :
@@ -202,7 +201,7 @@ async def get_canceled_trip_summary():
                 canceled_trips_summary[route_number] += 1
             total_canceled_trips += 1
     ftp_json_file_time = os.path.getmtime(PATH_TO_CANCELED_JSON)
-    logger.debug('file modified: ' + str(ftp_json_file_time))
+    #logger.debug('file modified: ' + str(ftp_json_file_time))
     modified_time = datetime.fromtimestamp((ftp_json_file_time)).astimezone(pytz.timezone("America/Los_Angeles"))
     formatted_modified_time = modified_time.strftime('%Y-%m-%d %H:%M:%S')
     return {"canceled_trips_summary":canceled_trips_summary,
@@ -211,7 +210,7 @@ async def get_canceled_trip_summary():
 
 @app.get("/canceled_service/line/{line}")
 async def get_canceled_trip(line):
-    logger.info("GET /canceled_service/line/" + line)
+    #logger.info("GET /canceled_service/line/" + line)
     with open(PATH_TO_CANCELED_JSON, 'r') as file:
         cancelled_service_json = json.loads(file.read())
         canceled_service = []
@@ -230,7 +229,7 @@ async def get_canceled_trip(line):
 
 @app.get("/canceled_service/all")
 async def get_canceled_trip():
-    logger.info("GET /canceled_service/all")
+    #logger.info("GET /canceled_service/all")
     with open(PATH_TO_CANCELED_JSON, 'r') as file:
         cancelled_service_json = json.loads(file.read())
         canceled_service = cancelled_service_json["CanceledService"]
@@ -246,14 +245,14 @@ app.add_middleware(
 
 @app.get("/time")
 async def get_time():
-    logger.info("GET /time/")
+    #logger.info("GET /time/")
     current_time = datetime.now()
     return {current_time}
 
 
 @app.get("/trip_updates/{service}")
 async def trip_updates(service, output_format: Optional[str] = None):
-    logger.info("GET /trip_updates/" + service)
+    #logger.info("GET /trip_updates/" + service)
     result = None
     valid_formats = ["json"]
 
@@ -269,7 +268,7 @@ async def trip_updates(service, output_format: Optional[str] = None):
 
 @app.get("/vehicle_positions/{service}")
 async def vehicle_positions(service, output_format: Optional[str] = None):
-    logger.info("GET /vehicle_positions/" + service)
+    #logger.info("GET /vehicle_positions/" + service)
     # format options:
     # - json
     result = None
@@ -292,27 +291,19 @@ async def vehicle_positions(service, output_format: Optional[str] = None):
 
 @app.get("/login",response_class=HTMLResponse)
 def login(request:Request):
-    logger.info("GET /login")
+    #logger.info("GET /login")
     return templates.TemplateResponse("login.html", context= {"request": request})
 
 
 @app.get("/",response_class=HTMLResponse)
 def index(request:Request):
-    logger.info("GET /")
+    #logger.info("GET /")
     # test_logging()
     human_readable_default_update = None
     try:
         default_update = datetime.fromtimestamp((Config.API_LAST_UPDATE_TIME)).astimezone(pytz.timezone("America/Los_Angeles"))
         human_readable_default_update = default_update.strftime('%Y-%m-%d %H:%M')
     except Exception as e:
-        logger.exception(type(e).__name__ + ": " + str(e), exc_info=False)
+        pass
+        #logger.exception(type(e).__name__ + ": " + str(e), exc_info=False)
     return templates.TemplateResponse("index.html", context= {"request": request,"api_version":Config.CURRENT_VERSION,"update_time":human_readable_default_update})
-
-def test_logging():
-    logger.info('test log')
-    logger.warn('test warning')
-
-    try:
-        1/0
-    except Exception as e:
-        logger.exception(type(e).__name__ + ": " + str(e), exc_info=False)
