@@ -3,6 +3,13 @@ from dotenv import load_dotenv
 from .utils.log_helper import *
 # from dotenv import dotenv_values
 
+from git import Repo
+
+def git_branch_name():
+    repo = Repo(search_parent_directories=True)
+    branch_name = repo.active_branch
+    return branch_name
+
 try:
     load_dotenv('.env')
     logger.debug('Environment variables loaded from .env file')
@@ -25,3 +32,4 @@ class Config:
     REPODIR = "/gtfs_rail"
     CURRENT_VERSION = "2.0.7"
     API_LAST_UPDATE_TIME = os.path.getmtime(r'app/main.py')
+    BRANCH_NAME = git_branch_name()
