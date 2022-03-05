@@ -16,4 +16,3 @@ passlib[bcrypt]
 logzio-python-handler
 aiofiles
 jinja2
-GitPython
