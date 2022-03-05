@@ -55,6 +55,8 @@ jobs:
         with:
           push: true
           tags: lacmta/metro-api-v2:latest
+          build-args: | 
+            BUILDKIT_CONTEXT_KEEP_GIT_DIR=true
       - name: Push Updated Docker Image on Lightsail
         run: >
           aws lightsail create-container-service-deployment 
