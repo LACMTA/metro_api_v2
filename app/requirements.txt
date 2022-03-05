@@ -15,3 +15,4 @@ passlib[bcrypt]
 aiofiles
 # GeoAlchemy2
 jinja2
+GitPython
