@@ -1,6 +1,11 @@
 # Metro API v2
 Metro API v2 is an API for Metro's GTFS-RT data.
 
+## Versioning
+
+Metro API v2 uses a modified version of [Semantic Versioning](https://semver.org/), with major (`X`), minor(`x`), and hotfix(`*`) releases for the numbers respectively: `X.x.*`.
+
+More versioning information can be found in [versioning.md](versioning.md)
 ## Getting started
 
 ### Prerequistes
@@ -38,13 +43,15 @@ Use this command to run locally.
 pip3 install -r requirements.txt
 
 # run uvicorn to serve the API
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload --port 1212
+
+
 ```
 
 Use this command to run uvicorn from Windows.  You may need to use Python 3.
 
 ``` bash
-python -m uvicorn app.main:app --reload
+python -m uvicorn app.main:app --reload 
 ```
 
 ### Misc Commands
