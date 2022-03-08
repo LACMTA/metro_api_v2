@@ -178,12 +178,6 @@ async def get_canceled_trip_summary():
     logger.info("GET /canceled_service_summary")
 
     canceled_json_file = Path(PATH_TO_CANCELED_JSON)
-    try :
-        if not canceled_json_file.exists():
-            run_update()
-    finally:
-        canceled_json_file.touch(exist_ok=True)
-
     with open(canceled_json_file, 'r') as file:
         canceled_trips = json.loads(file.read() or 'null')
         
@@ -191,25 +185,25 @@ async def get_canceled_trip_summary():
         return {"canceled_trips_summary": "",
                 "total_canceled_trips": 0,
                 "last_update": ""}
-
-    canceled_trips_summary = {}
-    total_canceled_trips = 0
-    for trip in canceled_trips["CanceledService"]:
-        # route_number = standardize_string(trip["trp_route"])
-        route_number = standardize_string(trip["trp_route"])
-        if route_number:
-            if route_number not in canceled_trips_summary:
-                canceled_trips_summary[route_number] = 1
-            else:
-                canceled_trips_summary[route_number] += 1
-            total_canceled_trips += 1
-    ftp_json_file_time = os.path.getmtime(PATH_TO_CANCELED_JSON)
-    logger.debug('file modified: ' + str(ftp_json_file_time))
-    modified_time = datetime.fromtimestamp((ftp_json_file_time)).astimezone(pytz.timezone("America/Los_Angeles"))
-    formatted_modified_time = modified_time.strftime('%Y-%m-%d %H:%M:%S')
-    return {"canceled_trips_summary":canceled_trips_summary,
-            "total_canceled_trips":total_canceled_trips,
-            "last_updated":formatted_modified_time}
+    else:
+        canceled_trips_summary = {}
+        total_canceled_trips = 0
+        for trip in canceled_trips["CanceledService"]:
+            # route_number = standardize_string(trip["trp_route"])
+            route_number = standardize_string(trip["trp_route"])
+            if route_number:
+                if route_number not in canceled_trips_summary:
+                    canceled_trips_summary[route_number] = 1
+                else:
+                    canceled_trips_summary[route_number] += 1
+                total_canceled_trips += 1
+        ftp_json_file_time = os.path.getmtime(PATH_TO_CANCELED_JSON)
+        logger.debug('file modified: ' + str(ftp_json_file_time))
+        modified_time = datetime.fromtimestamp((ftp_json_file_time)).astimezone(pytz.timezone("America/Los_Angeles"))
+        formatted_modified_time = modified_time.strftime('%Y-%m-%d %H:%M:%S')
+        return {"canceled_trips_summary":canceled_trips_summary,
+                "total_canceled_trips":total_canceled_trips,
+                "last_updated":formatted_modified_time}
 
 @app.get("/canceled_service/line/{line}")
 async def get_canceled_trip(line):
