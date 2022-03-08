@@ -1,5 +1,6 @@
 # import data modules
 from distutils.command.config import config
+import http
 import json
 import requests
 import csv
@@ -237,13 +238,7 @@ async def get_canceled_trip():
         canceled_service = cancelled_service_json["CanceledService"]
         return {"canceled_data":canceled_service}
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+
 
 @app.get("/time")
 async def get_time():
@@ -308,6 +303,16 @@ def index(request:Request):
     except Exception as e:
         logger.exception(type(e).__name__ + ": " + str(e), exc_info=False)
     return templates.TemplateResponse("index.html", context= {"request": request,"api_version":Config.CURRENT_VERSION,"update_time":human_readable_default_update})
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["*"],
+)
 
 def test_logging():
     logger.info('test log')
