@@ -23,5 +23,5 @@ class Config:
     REMOTEPATH = '/nextbus/prod/'
     DEBUG = True
     REPODIR = "/gtfs_rail"
-    CURRENT_VERSION = "2.0.8"
+    CURRENT_VERSION = "2.0.9"
     API_LAST_UPDATE_TIME = os.path.getmtime(r'app/main.py')
