@@ -178,6 +178,9 @@ async def get_canceled_trip_summary():
     logger.info("GET /canceled_service_summary")
 
     canceled_json_file = Path(PATH_TO_CANCELED_JSON)
+    if not canceled_json_file.exists():
+        canceled_json_file.touch()
+
     with open(canceled_json_file, 'r') as file:
         canceled_trips = json.loads(file.read() or 'null')
         
