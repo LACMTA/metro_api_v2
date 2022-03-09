@@ -44,7 +44,7 @@ def connect_to_swiftly(service, endpoint, output_file, output_format):
         response = requests.get(swiftly_endpoint, headers=header)
         logger.info('Response status code: ' + str(response.status_code))
     except Exception as e:
-        logger.error('Error connecting to Swiftly API: ' + str(e))
+        logger.exception('Error connecting to Swiftly API: ' + str(e))
         return
 
     try:
@@ -58,7 +58,7 @@ def connect_to_swiftly(service, endpoint, output_file, output_format):
                 # content = response.content.encode('utf8')
                 file.write(response.content)
     except Exception as e:
-        logger.error('Error writing to file: ' + output_file + ': ' + str(e))
+        logger.exception('Error writing to file: ' + output_file + ': ' + str(e))
         
 
 def get_trip_updates(service, output_format):
@@ -78,7 +78,7 @@ def get_trip_updates(service, output_format):
                 trip_updates_pb = file.read()
                 return trip_updates_pb
     else:
-        logger.error('Invalid service: ' + service)
+        logger.exception('Invalid service: ' + service)
         raise HTTPException(status_code=400, detail='Invalid service provided')
 
 def get_vehicle_positions(service, output_format):
@@ -100,7 +100,7 @@ def get_vehicle_positions(service, output_format):
                 file.close()
                 return vehicle_positions_proto
     else:
-        logger.error('Invalid service: ' + service)
+        logger.exception('Invalid service: ' + service)
         raise HTTPException(status_code=400, detail='Invalid service provided')
 
 # def write_output_file(output_format):
