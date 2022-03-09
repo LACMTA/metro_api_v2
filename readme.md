@@ -43,13 +43,15 @@ Use this command to run locally.
 pip3 install -r requirements.txt
 
 # run uvicorn to serve the API
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload --port 1212
+
+
 ```
 
 Use this command to run uvicorn from Windows.  You may need to use Python 3.
 
 ``` bash
-python -m uvicorn app.main:app --reload
+python -m uvicorn app.main:app --reload 
 ```
 
 ### Misc Commands
