@@ -18,11 +18,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      SERVICE_NAME: ${{ secrets.SERVICE_NAME }}
-      FTP_PASS: ${{ secrets.FTP_PASS }}
-      FTP_USERNAME: ${{ secrets.FTP_USER }}
-      FTP_SERVER: ${{ secrets.FTP_SERVER }}
     steps:
       - uses: actions/checkout@master
       - name: Upgrade AWS CLI version and setup lightsailctl
@@ -61,4 +56,4 @@ jobs:
         run: >
           aws lightsail create-container-service-deployment 
           --service-name dev-metro-api-v2 
-          --containers '{"dev-metro-api-v2": {"image":"lacmta/metro-api-v2:latest","ports":{"80":"HTTP"},"environment":{"FTP_PASS":"${{secrets.FTP_PASS }}","FTP_SERVER":"${{secrets.FTP_SERVER }}","FTP_USERNAME":"${{secrets.FTP_USERNAME }}","SWIFTLY_AUTH_KEY_BUS":"${{secrets.SWIFTLY_AUTH_KEY_BUS}}","SWIFTLY_AUTH_KEY_RAIL":"${{secrets.SWIFTLY_AUTH_KEY_RAIL}}","URI":"${{secrets.URI}}","HASH_KEY":"${{secrets.HASH_KEY}}","HASHING_ALGORITHM":"${{secrets.HASHING_ALGORITHM}}"}}}' --public-endpoint '{"containerName": "dev-metro-api-v2","containerPort": 80,"healthCheck":{ "healthyThreshold": 2,"unhealthyThreshold": 2,"timeoutSeconds": 2,"intervalSeconds": 5,"path": "/","successCodes": "200-499"}}'
+          --containers '{"dev-metro-api-v2": {"image":"lacmta/metro-api-v2:latest","ports":{"80":"HTTP"},"environment":{"FTP_PASS":"${{secrets.FTP_PASS }}","FTP_SERVER":"${{secrets.FTP_SERVER }}","FTP_USERNAME":"${{secrets.FTP_USERNAME }}","SWIFTLY_AUTH_KEY_BUS":"${{secrets.SWIFTLY_AUTH_KEY_BUS}}","SWIFTLY_AUTH_KEY_RAIL":"${{secrets.SWIFTLY_AUTH_KEY_RAIL}}","URI":"${{secrets.URI}}","HASH_KEY":"${{secrets.HASH_KEY}}","HASHING_ALGORITHM":"${{secrets.HASHING_ALGORITHM}}","LOGZIO_TOKEN":"${{secrets.LOGZIO_TOKEN}}","LOGZIO_URL":"https://listener.logz.io:8071","RUNNING_ENV":"dev"}}}' --public-endpoint '{"containerName": "dev-metro-api-v2","containerPort": 80,"healthCheck":{ "healthyThreshold": 2,"unhealthyThreshold": 2,"timeoutSeconds": 2,"intervalSeconds": 5,"path": "/","successCodes": "200-499"}}'

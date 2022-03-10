@@ -1,14 +1,13 @@
 import os
 from dotenv import load_dotenv
+
 from .utils.log_helper import *
-# from dotenv import dotenv_values
 
 try:
     load_dotenv('.env')
-    logger.debug('Environment variables loaded from .env file')
+    logger.info('Environment variables loaded from .env file')
 except Exception as e:
-    logger.error('Environment variables not loaded from .env file')
-    logger.error(e)
+    logger.exception('Environment variables not loaded from .env file: ' + str(e))
 
 class Config:
     DB_URI = os.environ.get('URI')
@@ -23,5 +22,8 @@ class Config:
     REMOTEPATH = '/nextbus/prod/'
     DEBUG = True
     REPODIR = "/gtfs_rail"
-    CURRENT_VERSION = "2.0.9"
+    CURRENT_VERSION = "2.0.10"
     API_LAST_UPDATE_TIME = os.path.getmtime(r'app/main.py')
+    LOGZIO_TOKEN = os.environ.get('LOGZIO_TOKEN')
+    LOGZIO_URL = os.environ.get('LOGZIO_URL')
+    RUNNING_ENV = os.environ.get('RUNNING_ENV')

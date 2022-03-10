@@ -19,3 +19,6 @@ services:
             URI: ${URI}
             HASH_KEY: ${HASH_KEY}
             HASHING_ALGORITHM: ${HASHING_ALGORITHM}
+            LOGZIO_TOKEN: ${LOGZIO_TOKEN}
+            LOGZIO_URL: ${LOGZIO_URL}
+            RUNNING_ENV: ${RUNNING_ENV}
