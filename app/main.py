@@ -289,6 +289,7 @@ def index(request:Request):
 class LogFilter(logging.Filter):
     def filter(self, record):
         record.app = "api.metro.net"
+        record.env = Config.RUNNING_ENV
         return True
 
 @app.on_event("startup")
@@ -298,14 +299,22 @@ async def startup_event():
     uvicorn_error_logger = logging.getLogger("uvicorn.error")
     logger = logging.getLogger("uvicorn.app")
     
-    logzio_formatter = logging.Formatter("[" + Config.RUNNING_ENV + "] %(app)s %(asctime)s %(levelname)s %(message)s")
-    logzio_handler = LogzioHandler(Config.LOGZIO_TOKEN, 'fastapi', 5, Config.LOGZIO_URL)
-    logzio_handler.setLevel(logging.INFO)
-    logzio_handler.setFormatter(logzio_formatter)
+    logzio_formatter = logging.Formatter("%(message)s")
+    logzio_uvicorn_access_handler = LogzioHandler(Config.LOGZIO_TOKEN, 'uvicorn.access', 5, Config.LOGZIO_URL)
+    logzio_uvicorn_access_handler.setLevel(logging.INFO)
+    logzio_uvicorn_access_handler.setFormatter(logzio_formatter)
 
-    uvicorn_access_logger.addHandler(logzio_handler)
-    uvicorn_error_logger.addHandler(logzio_handler)
-    logger.addHandler(logzio_handler)
+    logzio_uvicorn_error_handler = LogzioHandler(Config.LOGZIO_TOKEN, 'uvicorn.error', 5, Config.LOGZIO_URL)
+    logzio_uvicorn_error_handler.setLevel(logging.INFO)
+    logzio_uvicorn_error_handler.setFormatter(logzio_formatter)
+
+    logzio_app_handler = LogzioHandler(Config.LOGZIO_TOKEN, 'fastapi.app', 5, Config.LOGZIO_URL)
+    logzio_app_handler.setLevel(logging.INFO)
+    logzio_app_handler.setFormatter(logzio_formatter)
+
+    uvicorn_access_logger.addHandler(logzio_uvicorn_access_handler)
+    uvicorn_error_logger.addHandler(logzio_uvicorn_error_handler)
+    logger.addHandler(logzio_app_handler)
 
     uvicorn_access_logger.addFilter(LogFilter())
     uvicorn_error_logger.addFilter(LogFilter())
