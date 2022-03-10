@@ -66,3 +66,22 @@ metro-api-v2
 
 docker push albertkun/metro-api-v2
 ```
+
+### Debugging in VS Code
+
+Go to `Run -> Open Configurations` and add this to the `launch.json` file:
+
+``` js
+{
+    "name": "Python: Module",
+    "type": "python",
+    "request": "launch",
+    "module": "uvicorn",
+    "args": ["app.main:app", "--reload"],
+    "justMyCode": true
+}
+```
+
+This will tell the debugger to launch uvicorn as a python module, which is the equivalent of running `python -m uvicorn` in the terminal.  The `justMyCode` setting tells the debugger to only debug your code and not the included libraries.
+
+To use this configuration, press `F1` or `ctrl-shift-P` and choose `Debug: Select and Start Debugging`.  From the list, select the `Python: Module` configuration.
