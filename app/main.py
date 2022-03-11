@@ -44,7 +44,7 @@ from pathlib import Path
 
 from logzio.handler import LogzioHandler
 
-UPDATE_INTERVAL = 300
+UPDATE_INTERVAL = 30
 PATH_TO_CALENDAR_JSON = 'app/data/calendar_dates.json'
 PATH_TO_CANCELED_JSON = 'app/data/CancelledTripsRT.json'
 
@@ -65,7 +65,6 @@ def run_continuously(interval=UPDATE_INTERVAL):
             while not cease_continuous_run.is_set():
                 schedule.run_pending()
                 time.sleep(interval)
-                Config.API_LAST_UPDATE_TIME = os.path.getmtime(r'app/data/CancelledTripsRT.json')
     continuous_thread = ScheduleThread()
     continuous_thread.start()
     return cease_continuous_run
