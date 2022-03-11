@@ -44,7 +44,7 @@ from pathlib import Path
 
 from logzio.handler import LogzioHandler
 
-UPDATE_INTERVAL = 300
+UPDATE_INTERVAL = 30
 PATH_TO_CALENDAR_JSON = 'app/data/calendar_dates.json'
 PATH_TO_CANCELED_JSON = 'app/data/CancelledTripsRT.json'
 
@@ -65,7 +65,6 @@ def run_continuously(interval=UPDATE_INTERVAL):
             while not cease_continuous_run.is_set():
                 schedule.run_pending()
                 time.sleep(interval)
-                Config.API_LAST_UPDATE_TIME = datetime.now()
     continuous_thread = ScheduleThread()
     continuous_thread.start()
     return cease_continuous_run
@@ -280,7 +279,7 @@ def login(request:Request):
 def index(request:Request):
     human_readable_default_update = None
     try:
-        default_update = datetime.fromtimestamp((Config.API_LAST_UPDATE_TIME))
+        default_update = datetime.fromtimestamp(Config.API_LAST_UPDATE_TIME)
         default_update = default_update.astimezone(pytz.timezone("America/Los_Angeles"))
         human_readable_default_update = default_update.strftime('%Y-%m-%d %H:%M')
     except Exception as e:
