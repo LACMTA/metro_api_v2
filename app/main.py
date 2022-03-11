@@ -280,7 +280,8 @@ def login(request:Request):
 def index(request:Request):
     human_readable_default_update = None
     try:
-        default_update = datetime.fromtimestamp((Config.API_LAST_UPDATE_TIME)).astimezone(pytz.timezone("America/Los_Angeles"))
+        default_update = datetime.fromtimestamp((Config.API_LAST_UPDATE_TIME))
+        default_update = default_update.astimezone(pytz.timezone("America/Los_Angeles"))
         human_readable_default_update = default_update.strftime('%Y-%m-%d %H:%M')
     except Exception as e:
         logger.exception(type(e).__name__ + ": " + str(e), exc_info=False)
