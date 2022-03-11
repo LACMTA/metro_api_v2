@@ -1,6 +1,11 @@
 # Metro API v2
 Metro API v2 is an API for Metro's GTFS-RT data.
 
+## Versioning
+
+Metro API v2 uses a modified version of [Semantic Versioning](https://semver.org/), with major (`X`), minor(`x`), and hotfix(`*`) releases for the numbers respectively: `X.x.*`.
+
+More versioning information can be found in [versioning.md](versioning.md)
 ## Getting started
 
 ### Prerequistes
@@ -38,13 +43,15 @@ Use this command to run locally.
 pip3 install -r requirements.txt
 
 # run uvicorn to serve the API
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload --port 1212
+
+
 ```
 
-You may need to use this command to run uvicorn from Windows:
+Use this command to run uvicorn from Windows.  You may need to use Python 3.
 
 ``` bash
-python -m uvicorn app.main:app --reload
+python -m uvicorn app.main:app --reload 
 ```
 
 ### Misc Commands
@@ -59,3 +66,22 @@ metro-api-v2
 
 docker push albertkun/metro-api-v2
 ```
+
+### Debugging in VS Code
+
+Go to `Run -> Open Configurations` and add this to the `launch.json` file:
+
+``` js
+{
+    "name": "Python: Module",
+    "type": "python",
+    "request": "launch",
+    "module": "uvicorn",
+    "args": ["app.main:app", "--reload"],
+    "justMyCode": true
+}
+```
+
+This will tell the debugger to launch uvicorn as a python module, which is the equivalent of running `python -m uvicorn` in the terminal.  The `justMyCode` setting tells the debugger to only debug your code and not the included libraries.
+
+To use this configuration, press `F1` or `ctrl-shift-P` and choose `Debug: Select and Start Debugging`.  From the list, select the `Python: Module` configuration.
