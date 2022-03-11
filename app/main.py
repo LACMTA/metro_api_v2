@@ -44,7 +44,7 @@ from pathlib import Path
 
 from logzio.handler import LogzioHandler
 
-UPDATE_INTERVAL = 30
+UPDATE_INTERVAL = 300
 PATH_TO_CALENDAR_JSON = 'app/data/calendar_dates.json'
 PATH_TO_CANCELED_JSON = 'app/data/CancelledTripsRT.json'
 
