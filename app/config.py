@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 
 from .utils.log_helper import *
-
+from . import *
 try:
     load_dotenv('.env')
     logger.info('Environment variables loaded from .env file')

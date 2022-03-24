@@ -6,6 +6,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String)
     email = Column(String, unique=True, index=True)
-    hashed_password = Column(String)
-    is_active = Column(Boolean, default=True)
+    email_token = Column(String)
+    api_token = Column(String)
+    is_active = Column(Boolean, default=False)
 
