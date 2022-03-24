@@ -119,8 +119,16 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # begin tokens
 
+@app.get("/verify_email/{email_verification_token}")
+async def verify_email_route(email_verification_token: str,db: Session = Depends(get_db)):
+    
+    if not crud.verify_email(email_verification_token,db):
+        return False
+
+    return "email verified"
+
 @app.post("/token", response_model=schemas.Token)
-async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(),db: Session = Depends(get_db),token: str = Depends(oauth2_scheme)):
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(),db: Session = Depends(get_db)):
     user = crud.authenticate_user(form_data.username, form_data.password,db)
     if not user:
         raise HTTPException(
@@ -141,7 +149,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 
 
 @app.post("/users/", response_model=schemas.User)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db),token: str = Depends(oauth2_scheme)):
+def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")

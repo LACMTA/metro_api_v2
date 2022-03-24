@@ -8,5 +8,7 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     email_token = Column(String)
     api_token = Column(String)
+    hashed_password = Column(String)
+    is_email_verified = Column(Boolean, default=False)
     is_active = Column(Boolean, default=False)
 
