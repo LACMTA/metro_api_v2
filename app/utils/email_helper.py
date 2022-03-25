@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 context = ssl.SSLContext(ssl.PROTOCOL_TLS)
 
 def login_and_send_email(email_config,email_destination,payload):
-        message = MIMEMultipart()
+        message = MIMEMultipart("alternative")
         message["Subject"] = payload["email_subject"]
         message["From"] = "LA Metor API v2"
         message["To"] = email_destination
