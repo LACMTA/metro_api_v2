@@ -10,6 +10,7 @@ except Exception as e:
     logger.exception('Environment variables not loaded from .env file: ' + str(e))
 
 class Config:
+    BASE_URL = "https://api.metro.net"
     DB_URI = os.environ.get('URI')
     SECRET_KEY = os.environ.get('HASH_KEY')
     ALGORITHM = os.environ.get('HASHING_ALGORITHM')
@@ -27,3 +28,13 @@ class Config:
     LOGZIO_TOKEN = os.environ.get('LOGZIO_TOKEN')
     LOGZIO_URL = os.environ.get('LOGZIO_URL')
     RUNNING_ENV = os.environ.get('RUNNING_ENV')
+
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_FROM = os.environ.get('MAIL_FROM')
+    MAIL_PORT = os.environ.get('MAIL_PORT')
+    MAIL_SERVER = os.environ.get('MAIL_SERVER')
+    MAIL_TLS = "True"
+    MAIL_SSL = "False"
+    USE_CREDENTIALS = "True"
+    VALIDATE_CERTS = "True"

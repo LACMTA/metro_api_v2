@@ -110,14 +110,11 @@ app = FastAPI()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-# Begin Routes
+####################
+#  Begin Routes
+####################
 
-# @app.get("/users/me")
-# async def read_users_me(current_user: User = Depends(get_current_user)):
-#     return current_user
-
-
-# begin tokens
+# tokens
 
 @app.get("/verify_email/{email_verification_token}")
 async def verify_email_route(email_verification_token: str,db: Session = Depends(get_db)):

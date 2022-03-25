@@ -12,12 +12,13 @@ from . import models, schemas
 from .config import Config
 from .database import Session,get_db
 from .utils.log_helper import *
+from .utils.email_helper import *
 from datetime import datetime
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-# Email verification
+# email verification utils
 
 def verify_email(payload,db: Session):
     credentials_exception = HTTPException(
@@ -70,21 +71,20 @@ def activate_email(db, email: str):
 def verify_token(token: str, credentials_exception):
     try:
         payload = jwt.decode(token, Config.SECRET_KEY, algorithms=[Config.ALGORITHM])
-        email: str = payload.get("sub")
-        if email is None:
+        email_address: str = payload.get("sub")
+        if email_address is None:
             raise credentials_exception
-        token_data = schemas.APIToken(email=email)
+        token_data = schemas.APIToken(email_address=email_address)
         return token_data
     except JWTError:
         raise credentials_exception
 
-# User passwords utils
+# passwords utils
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
 def get_password_hash(password):
     return pwd_context.hash(password)
-
 
 # user utils
 def get_user(db, username: str):
@@ -152,8 +152,23 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 def create_user(db: Session, user: schemas.UserCreate):
     hashed_password = pwd_context.hash(user.password)
     email_token = create_email_verification_token(user.email)
+    send_verification_email_to_user(user.email, user.username,email_token)
     db_user = models.User(username=user.username,email=user.email, email_token=email_token,hashed_password=hashed_password,is_email_verified=False)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
     return db_user
+
+def send_verification_email_to_user(destination_email,username,email_verification_token):
+    email_config = {"MAIL_SERVER":Config.MAIL_SERVER,"MAIL_PORT":587,"MAIL_USERNAME":Config.MAIL_USERNAME,"MAIL_PASSWORD":Config.MAIL_PASSWORD}
+
+    message_in_txt = "Hi "+username+",\n\n"+"Please click on the link below to verify your email address.\n\n"+Config.BASE_URL+"/api/verify_email/"+email_verification_token+"\n\n"+"Thanks,\n"+"Metro API v2"
+    message_in_html = "<p>Hi "+username+",</p><p>Please click on the link below to verify your email address.</p><p><a href=\""+Config.BASE_URL+"/api/verify_email/"+email_verification_token+"\">Verify Email</a></p><p>Thanks,</p><p>Metro API v2</p>"
+
+    email_payload = {
+        "email_subject": "Metro API v2 - Verify your email address",
+        "email_message_txt": message_in_txt,
+        "email_message_html": message_in_html
+    }
+
+    login_and_send_email(email_config, destination_email, email_payload)
